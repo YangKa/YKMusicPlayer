@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YKMusicModel.h"
 
 @interface YKPlayViewController : UIViewController
+
+- (instancetype)initWithMusic:(YKMusicModel*)music;
 
 @end

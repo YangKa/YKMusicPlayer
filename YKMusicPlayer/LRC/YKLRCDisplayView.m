@@ -27,7 +27,7 @@
 static CGFloat CellHeight = 50;
 @implementation YKLRCDisplayView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -36,7 +36,7 @@ static CGFloat CellHeight = 50;
         _totalTime = 0;
         
         YKLRCParser *lrcPaser = [[YKLRCParser alloc] init];
-        _lrclist = [lrcPaser paserLRCFileWithFileName:@"10405520.lrc"];
+        _lrclist = [lrcPaser paserLRCForFilePath:lrcFilePath];
         
         [self layoutUI];
         [self scrollToNextWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -122,7 +122,7 @@ static CGFloat CellHeight = 50;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    YKLRCCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LRCTableViewCell"];
+    YKLRCCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YKLRCCell"];
     
     YKLRCModel *model = _lrclist[indexPath.row];
     [cell setLRCText:model.text];

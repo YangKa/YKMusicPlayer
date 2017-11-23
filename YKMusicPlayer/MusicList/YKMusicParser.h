@@ -5,9 +5,10 @@
 //  Created by 杨卡 on 2017/11/21.
 //  Copyright © 2017年 yangka. All rights reserved.
 //
+#import <Foundation/Foundation.h>
 
-#import <UIKit/UIKit.h>
+@interface YKMusicParser : NSObject
 
-@interface YKMusicParser : UIView
++ (NSArray*)musicListWithFileName:(NSString*)fileName;
 
 @end

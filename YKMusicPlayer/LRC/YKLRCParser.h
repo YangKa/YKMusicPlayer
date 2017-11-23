@@ -12,4 +12,6 @@
 
 - (NSArray *)paserLRCFileWithFileName:(NSString*)fileName;
 
+- (NSArray*)paserLRCForFilePath:(NSString*)filePath;
+
 @end

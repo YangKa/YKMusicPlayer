@@ -7,31 +7,53 @@
 //
 
 #import "YKMusicListViewController.h"
+#import "YKMusicParser.h"
+#import "YKMusicModel.h"
+#import "YKPlayViewController.h"
 
 @interface YKMusicListViewController ()
 
+@property (nonatomic, copy) NSArray *musicList;
+
 @end
 
+static NSString *CellIdentifer = @"CellIdentifer";
 @implementation YKMusicListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.musicList = [YKMusicParser musicListWithFileName:@"Musics.plist"];
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.estimatedRowHeight = 80;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.musicList.count;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifer];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifer];
+    }
+    
+    YKMusicModel *model = self.musicList[indexPath.row];
+    cell.imageView.image = [UIImage imageNamed:model.iconName];
+    cell.textLabel.text = model.title;
+    cell.detailTextLabel.text = model.singerName;
+    
+    return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    YKMusicModel *model = self.musicList[indexPath.row];
+    YKPlayViewController *playVC = [[YKPlayViewController alloc] initWithMusic:model];
+    
+    [self.navigationController pushViewController:playVC animated:YES];
+}
 
 @end

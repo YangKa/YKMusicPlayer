@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YKPlayScrollView : UIScrollView
 
+@interface YKPlayScrollView : UIScrollView
+- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath;
 @end

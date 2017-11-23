@@ -13,14 +13,23 @@
 
 - (NSArray *)paserLRCFileWithFileName:(NSString*)fileName{
     
-    NSArray *list = [self lrcStringListForFileName:fileName];
+    NSString *filePath = [self filePathForFileName:fileName];
+    return [self paserLRCForFilePath:filePath];
+}
+
+- (NSArray*)paserLRCForFilePath:(NSString*)filePath{
+    NSArray *list = [self lrcStringListForFilePath:filePath];
     
+    return [self paserLRCForFileContentList:list];
+}
+
+- (NSArray*)paserLRCForFileContentList:(NSArray*)fileList{
     
     
     NSMutableArray *lrcList = [NSMutableArray array];
-    for (int i = 0; i < list.count - 1; i++) {
+    for (int i = 0; i < fileList.count - 1; i++) {
         
-        YKLRCModel *model = [self paserSingleLrcText:list[i] nextLine:list[i+1]];
+        YKLRCModel *model = [self paserSingleLrcText:fileList[i] nextLine:fileList[i+1]];
         if (model) {
             [lrcList addObject:model];
         }
@@ -30,8 +39,7 @@
 }
 
 
-- (NSArray*)lrcStringListForFileName:(NSString*)fileName{
-    
+- (NSString*)filePathForFileName:(NSString*)fileName{
     NSString *path;
     if ([fileName containsString:@"."]) {
         NSArray *fileList = [fileName componentsSeparatedByString:@"."];
@@ -39,9 +47,11 @@
     }else{
         path = [[NSBundle mainBundle] pathForResource:fileName ofType:@"lrc"];
     }
-    
-    NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
+    return path;
+}
+
+- (NSArray*)lrcStringListForFilePath:(NSString*)filePath{
+    NSString *content = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     return [content componentsSeparatedByString:@"\n"];
 }
 

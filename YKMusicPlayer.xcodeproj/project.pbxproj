@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F6F07931FC6A46F00A331F8 /* YKMusicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6F07921FC6A46E00A331F8 /* YKMusicModel.m */; };
 		8F8F70A11FC3E94000788266 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F70A01FC3E94000788266 /* AppDelegate.m */; };
 		8F8F70A41FC3E94000788266 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F70A31FC3E94000788266 /* ViewController.m */; };
 		8F8F70A71FC3E94000788266 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F8F70A51FC3E94000788266 /* Main.storyboard */; };
@@ -54,7 +55,6 @@
 		8F8F71A71FC3EA1A00788266 /* YKLRCDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71A61FC3EA1A00788266 /* YKLRCDisplayView.m */; };
 		8F8F71AA1FC3EA2C00788266 /* YKPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71A91FC3EA2C00788266 /* YKPlayView.m */; };
 		8F8F71AD1FC3EA3700788266 /* YKControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71AC1FC3EA3700788266 /* YKControlBar.m */; };
-		8F8F71B01FC3EA4A00788266 /* YKMusicList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71AF1FC3EA4A00788266 /* YKMusicList.m */; };
 		8F8F71B31FC3EA6600788266 /* YKMusicParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71B21FC3EA6600788266 /* YKMusicParser.m */; };
 		8F8F71B61FC3EA9D00788266 /* YKPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71B51FC3EA9D00788266 /* YKPlayViewController.m */; };
 		8F8F71B91FC3EAAE00788266 /* YKMusicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F71B81FC3EAAE00788266 /* YKMusicListViewController.m */; };
@@ -65,6 +65,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F6F07911FC6A46E00A331F8 /* YKMusicModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicModel.h; sourceTree = "<group>"; };
+		8F6F07921FC6A46E00A331F8 /* YKMusicModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKMusicModel.m; sourceTree = "<group>"; };
 		8F8F709C1FC3E94000788266 /* YKMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YKMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8F709F1FC3E94000788266 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8F8F70A01FC3E94000788266 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -120,8 +122,6 @@
 		8F8F71A91FC3EA2C00788266 /* YKPlayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKPlayView.m; sourceTree = "<group>"; };
 		8F8F71AB1FC3EA3700788266 /* YKControlBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKControlBar.h; sourceTree = "<group>"; };
 		8F8F71AC1FC3EA3700788266 /* YKControlBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKControlBar.m; sourceTree = "<group>"; };
-		8F8F71AE1FC3EA4A00788266 /* YKMusicList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicList.h; sourceTree = "<group>"; };
-		8F8F71AF1FC3EA4A00788266 /* YKMusicList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKMusicList.m; sourceTree = "<group>"; };
 		8F8F71B11FC3EA6600788266 /* YKMusicParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicParser.h; sourceTree = "<group>"; };
 		8F8F71B21FC3EA6600788266 /* YKMusicParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKMusicParser.m; sourceTree = "<group>"; };
 		8F8F71B41FC3EA9D00788266 /* YKPlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKPlayViewController.h; sourceTree = "<group>"; };
@@ -220,12 +220,12 @@
 		8F8F70B71FC3E96900788266 /* MusicList */ = {
 			isa = PBXGroup;
 			children = (
-				8F8F71AE1FC3EA4A00788266 /* YKMusicList.h */,
-				8F8F71AF1FC3EA4A00788266 /* YKMusicList.m */,
 				8F8F71B11FC3EA6600788266 /* YKMusicParser.h */,
 				8F8F71B21FC3EA6600788266 /* YKMusicParser.m */,
 				8F8F71B71FC3EAAE00788266 /* YKMusicListViewController.h */,
 				8F8F71B81FC3EAAE00788266 /* YKMusicListViewController.m */,
+				8F6F07911FC6A46E00A331F8 /* YKMusicModel.h */,
+				8F6F07921FC6A46E00A331F8 /* YKMusicModel.m */,
 			);
 			path = MusicList;
 			sourceTree = "<group>";
@@ -412,7 +412,6 @@
 				8F8F71BC1FC4004A00788266 /* YKLRCModel.m in Sources */,
 				8F8F70A41FC3E94000788266 /* ViewController.m in Sources */,
 				8F8F71B61FC3EA9D00788266 /* YKPlayViewController.m in Sources */,
-				8F8F71B01FC3EA4A00788266 /* YKMusicList.m in Sources */,
 				8F8F70AF1FC3E94100788266 /* main.m in Sources */,
 				8F8F71AA1FC3EA2C00788266 /* YKPlayView.m in Sources */,
 				8F8F71C21FC4012600788266 /* YKLRCLabel.m in Sources */,
@@ -421,6 +420,7 @@
 				8F8F71B91FC3EAAE00788266 /* YKMusicListViewController.m in Sources */,
 				8F8F70A11FC3E94000788266 /* AppDelegate.m in Sources */,
 				8F8F71AD1FC3EA3700788266 /* YKControlBar.m in Sources */,
+				8F6F07931FC6A46F00A331F8 /* YKMusicModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

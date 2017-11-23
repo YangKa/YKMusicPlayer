@@ -10,12 +10,20 @@
 #import "YKPlayView.h"
 #import "YKLRCDisplayView.h"
 
+@interface YKPlayScrollView(){
+    NSString *_lrcFilePath;
+}
+
+@end
+
+
 @implementation YKPlayScrollView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _lrcFilePath = lrcFilePath;
         [self layoutUI];
     }
     return self;
@@ -29,7 +37,7 @@
     YKPlayView *playView = [[YKPlayView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [self addSubview:playView];
     
-    YKLRCDisplayView *LRCView = [[YKLRCDisplayView alloc] initWithFrame:CGRectMake(width, 0, width, height)];
+    YKLRCDisplayView *LRCView = [[YKLRCDisplayView alloc] initWithFrame:CGRectMake(width, 0, width, height) lrcFilePath:_lrcFilePath];
     [self addSubview:LRCView];
     
     self.contentSize = CGSizeMake(2*width, 0);

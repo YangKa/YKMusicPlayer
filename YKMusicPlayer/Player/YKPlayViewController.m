@@ -11,18 +11,35 @@
 
 @interface YKPlayViewController ()
 
+@property (nonatomic, strong) YKMusicModel *music;
+
 @end
 
 @implementation YKPlayViewController
 
+- (instancetype)initWithMusic:(YKMusicModel*)music{
+    self = [super init];
+    if (self){
+        _music = music;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self layoutUI];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    
+}
+
 - (void)layoutUI{
-    YKPlayScrollView *playScrollView = [[YKPlayScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 100)];
+    YKPlayScrollView *playScrollView = [[YKPlayScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 100) lrcFilePath:self.music.LRCFilePath];
     [self.view addSubview:playScrollView];
 }
 

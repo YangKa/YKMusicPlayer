@@ -10,4 +10,6 @@
 
 @interface YKLRCDisplayView : UIView
 
+- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath;
+
 @end
