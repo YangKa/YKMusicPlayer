@@ -46,32 +46,9 @@ static CGFloat CellHeight = 50;
     return self;
 }
 
-- (UIImage*)gaussianBlurForImage:(UIImage*)image{
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *ciImage = [CIImage imageWithCGImage:image.CGImage];
-    
-    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-    [filter setValue:ciImage forKey:kCIInputImageKey];
-    [filter setValue:@(4) forKey: @"inputRadius"];
-    CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    
-    CGImageRef outImage = [context createCGImage:result fromRect:[result extent]];
-    
-    return [UIImage imageWithCGImage:outImage];
-}
-
 - (void)layoutUI{
     CGFloat paddding = (self.frame.size.height - CellHeight)/2;
-    
-    //海报背景
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    imageView.contentMode = UIViewContentModeScaleToFill;
-    UIImage *image = [self gaussianBlurForImage:[UIImage imageNamed:@"bg"]];
-    NSLog(@"%@", NSStringFromCGSize(image.size));
-    NSLog(@"%@", NSStringFromCGSize(imageView.frame.size));
-    imageView.image = image;
-    [self addSubview:imageView];
-    
+
     //渐变
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     gradientLayer.frame  = CGRectMake(0, 0, self.frame.size.width,  self.frame.size.height);

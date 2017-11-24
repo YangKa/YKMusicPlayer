@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class YKMusicModel;
 
 @interface YKPlayScrollView : UIScrollView
-- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath;
+- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
 @end

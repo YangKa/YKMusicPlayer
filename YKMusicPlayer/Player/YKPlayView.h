@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class  YKMusicModel;
 
 @interface YKPlayView : UIView
+
+- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
+
+- (void)stopRotationAnimation;
 
 @end

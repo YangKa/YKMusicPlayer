@@ -52,8 +52,7 @@ static NSString *CellIdentifer = @"CellIdentifer";
     
     YKMusicModel *model = self.musicList[indexPath.row];
     YKPlayViewController *playVC = [[YKPlayViewController alloc] initWithMusic:model];
-    
-    [self.navigationController pushViewController:playVC animated:YES];
+    [self presentViewController:playVC animated:YES completion:nil];
 }
 
 @end

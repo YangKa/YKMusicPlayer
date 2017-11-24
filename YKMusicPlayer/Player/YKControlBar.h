@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class YKMusicModel;
 
 @interface YKControlBar : UIView
+
+- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
 
 @end

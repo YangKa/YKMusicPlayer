@@ -9,21 +9,22 @@
 #import "YKPlayScrollView.h"
 #import "YKPlayView.h"
 #import "YKLRCDisplayView.h"
+#import "YKMusicModel.h"
 
-@interface YKPlayScrollView(){
-    NSString *_lrcFilePath;
-}
+@interface YKPlayScrollView()
+
+@property (nonatomic, strong) YKMusicModel *music;
 
 @end
 
-
 @implementation YKPlayScrollView
 
-- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath
+- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _lrcFilePath = lrcFilePath;
+        _music = music;
+ 
         [self layoutUI];
     }
     return self;
@@ -34,10 +35,10 @@
     CGFloat width = self.frame.size.width;
     CGFloat height = self.frame.size.height;
     
-    YKPlayView *playView = [[YKPlayView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    YKPlayView *playView = [[YKPlayView alloc] initWithFrame:CGRectMake(0, 0, width, height) music:self.music];
     [self addSubview:playView];
     
-    YKLRCDisplayView *LRCView = [[YKLRCDisplayView alloc] initWithFrame:CGRectMake(width, 0, width, height) lrcFilePath:_lrcFilePath];
+    YKLRCDisplayView *LRCView = [[YKLRCDisplayView alloc] initWithFrame:CGRectMake(width, 0, width, height) lrcFilePath:self.music.LRCFilePath];
     [self addSubview:LRCView];
     
     self.contentSize = CGSizeMake(2*width, 0);
