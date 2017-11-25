@@ -7,8 +7,11 @@
 //
 
 #import "YKProgressView.h"
+#import "YKMusicPlayeMananger.h"
 
-@interface YKProgressView ()
+@interface YKProgressView (){
+    BOOL _sliding;
+}
 
 @property (nonatomic, assign) CGFloat duration;
 
@@ -56,9 +59,16 @@
     [slider setThumbImage:[UIImage imageNamed:@"color_clear"] forState:UIControlStateNormal];
     [slider setThumbImage:[UIImage imageNamed:@"color_green"] forState:UIControlStateHighlighted];
     slider.minimumValue = 0;
+    slider.continuous = NO;
     [slider addTarget:self action:@selector(sliderValueChange:) forControlEvents:UIControlEventValueChanged];
+    [slider addTarget:self action:@selector(sliderTouchStatusChange:) forControlEvents:UIControlEventTouchDown];
+    [slider addTarget:self action:@selector(sliderTouchStatusChange:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:slider];
     self.slider = slider;
+}
+
+- (void)sliderTouchStatusChange:(UISlider*)slider{
+    _sliding = !_sliding;
 }
 
 - (void)setDuration:(CGFloat)duration progress:(CGFloat)progress{
@@ -70,10 +80,13 @@
     self.slider.value = progress;
 }
 
+
+//slider scroll end
 - (void)sliderValueChange:(UISlider*)slider{
     
-    _progress = slider.value;
+    [[YKMusicPlayeMananger manager] seekToTime:CMTimeMake((int)slider.value, (int)slider.maximumValue)];
     
+    _progress = slider.value;
     NSTimeInterval time = (NSTimeInterval)slider.value;
     self.progressTimeLabel.text = [self timeFormatWithIntervalTime:time];
 }
@@ -90,8 +103,10 @@
     }
     
     //更新进度条
-    [self.slider setValue:progress animated:NO];
-    self.progressTimeLabel.text = [self timeFormatWithIntervalTime:(NSTimeInterval)progress];
+    if (!_sliding) {
+        [self.slider setValue:progress animated:NO];
+        self.progressTimeLabel.text = [self timeFormatWithIntervalTime:(NSTimeInterval)progress];
+    }
 }
 
 - (CGFloat)progress{

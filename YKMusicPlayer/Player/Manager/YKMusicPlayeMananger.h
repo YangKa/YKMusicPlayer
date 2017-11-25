@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import "YKMusicModel.h"
 
 @interface YKMusicPlayeMananger : NSObject
@@ -28,5 +29,7 @@
 - (void)resumePlay;
 
 - (void)cancelPlay;
+
+- (void)seekToTime:(CMTime)time;
 
 @end

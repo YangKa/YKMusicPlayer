@@ -7,7 +7,7 @@
 //
 
 #import "YKMusicPlayeMananger.h"
-#import <AVFoundation/AVFoundation.h>
+
 
 @interface YKMusicPlayeMananger ()
 
@@ -96,6 +96,10 @@
     self.player = nil;
     self.currentPlayTime = 0;
     
+}
+
+- (void)seekToTime:(CMTime)time{
+    [self.player seekToTime:time];
 }
 
 #pragma mark
