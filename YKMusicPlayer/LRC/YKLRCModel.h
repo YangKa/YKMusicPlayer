@@ -17,12 +17,12 @@
 @property (nonatomic, readonly, assign) NSTimeInterval beginTime;
 
 //总时长
-@property (nonatomic, readonly, assign) NSTimeInterval totalTime;
+@property (nonatomic, readonly, assign) NSTimeInterval duration;
 
 //分段时长
 @property (nonatomic, readonly, copy) NSArray *segementTimes;
 
-+ (instancetype)LRCWithContent:(NSString*)content totalTime:(NSTimeInterval)time segementTimes:(NSArray*)times;
++ (instancetype)LRCWithContent:(NSString*)content duration:(NSTimeInterval)duration beginTime:(NSTimeInterval)beginTime segementTimes:(NSArray*)times;
 
 
 @end

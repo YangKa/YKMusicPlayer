@@ -11,12 +11,13 @@
 #import "YKLRCCell.h"
 #import "YKLRCParser.h"
 
+#import "YKMusicPlayeMananger.h"
+
 @interface YKLRCDisplayView ()<UITableViewDelegate, UITableViewDataSource>{
     NSArray *_lrclist;
     UITableView *tableView;
     
     CADisplayLink *playLink;
-    NSDate *beginTime;
     
     NSInteger _curRow;
     float _totalTime;
@@ -115,25 +116,23 @@ static CGFloat CellHeight = 50;
 }
 
 - (void)beginPlay{
-    beginTime = [NSDate date];
     playLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshLRCList)];
     [playLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 - (void)refreshLRCList{
     
-    NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:beginTime];
+    
+    NSTimeInterval interval = (NSTimeInterval)[YKMusicPlayeMananger manager].currentPlayTime;
     
     YKLRCModel *model = _lrclist[_curRow];
-    CGFloat progress = interval/model.totalTime;
+    CGFloat progress = (interval - model.beginTime)/model.duration;
     
     if (progress >=1) {
         
         if (_curRow == _lrclist.count -1 ) {
             [playLink invalidate];
         }else{
-            
-            beginTime = [NSDate date];
             
             _curRow++;
             [self scrollToNextWithIndexPath:[NSIndexPath indexPathForRow:_curRow inSection:0]];

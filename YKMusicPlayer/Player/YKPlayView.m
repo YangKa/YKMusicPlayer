@@ -41,8 +41,8 @@ static NSString *RotationAnimationKey = @"rotation";
     imageView.center = CGPointMake(self.yk_width/2, self.yk_height/2);
     imageView.layer.cornerRadius = radius/2;
     imageView.layer.masksToBounds = YES;
-    imageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    imageView.layer.borderWidth = 2;
+    imageView.layer.borderColor = [UIColor blackColor].CGColor;
+    imageView.layer.borderWidth = 3;
     [self addSubview:imageView];
     self.roundPanel = imageView;
     

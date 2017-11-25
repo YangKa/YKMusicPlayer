@@ -34,14 +34,14 @@
     YKMusicModel *model = [YKMusicModel new];
     
     model.title = info[@"name"];
-    model.filePath = [[NSBundle mainBundle] pathForResource:info[@"fileName"] ofType:nil];
+    model.filePath = [[NSBundle mainBundle] pathForResource:info[@"filename"] ofType:nil];
     model.LRCFilePath = [[NSBundle mainBundle] pathForResource:info[@"lrcname"] ofType:nil];
     model.singerName = info[@"singer"];
     model.iconName = info[@"singerIcon"];
     model.bigIconName = info[@"icon"];
     
     //duration
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:model.filePath] options:nil];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:model.filePath] options:nil];
     NSTimeInterval duratuin = CMTimeGetSeconds(asset.duration);
     model.totalDuration = duratuin;
     

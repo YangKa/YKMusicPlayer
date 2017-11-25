@@ -23,7 +23,7 @@
 }
 
 - (CGFloat)yk_maxX{
-    return CGRectGetMinX(self.frame);
+    return CGRectGetMaxX(self.frame);
 }
 
 - (CGFloat)yk_Y{

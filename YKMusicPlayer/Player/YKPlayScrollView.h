@@ -10,5 +10,7 @@
 @class YKMusicModel;
 
 @interface YKPlayScrollView : UIScrollView
+
 - (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
+
 @end

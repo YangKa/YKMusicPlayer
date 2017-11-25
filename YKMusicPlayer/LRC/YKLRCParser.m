@@ -70,12 +70,15 @@
     [list removeLastObject];
     
     //time
-    NSTimeInterval totalTimeInterval = 0;
+    NSTimeInterval duration = 0;
+    NSTimeInterval beginTime = 0;
+    NSTimeInterval endTime = 0;
+    
     NSMutableArray *timeList = [NSMutableArray array];
     for (int i =0; i < list.count; i++) {
         
         NSTimeInterval segementInterval = [self timeIntervalForTimeText:list[i]];
-        totalTimeInterval += segementInterval;
+        beginTime += segementInterval;
         [timeList addObject:[NSNumber numberWithDouble:segementInterval]];
     }
     
@@ -84,12 +87,12 @@
     nextLine = [nextLine stringByReplacingOccurrencesOfString:@"\t" withString:@""];
     if ( [nextLine containsString:@"]"] && [nextLine containsString:@"["] ) {
         NSArray *nextLineList =  [nextLine componentsSeparatedByString:@"]"];
-        NSTimeInterval nextTime = [self timeIntervalForTimeText:nextLineList.firstObject];
+        NSTimeInterval endTime = [self timeIntervalForTimeText:nextLineList.firstObject];
         
-        totalTimeInterval = nextTime - totalTimeInterval;
+        duration = endTime - beginTime;
     }
     
-    return [YKLRCModel LRCWithContent:text totalTime:totalTimeInterval  segementTimes:timeList];
+    return [YKLRCModel LRCWithContent:text duration:duration beginTime:beginTime segementTimes:timeList];
 }
 
 //[00:50.37]

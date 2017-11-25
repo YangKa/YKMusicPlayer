@@ -13,8 +13,11 @@
 //歌词
 @property (nonatomic, copy) NSString *text;
 
+//开始时间
+@property (nonatomic, assign) NSTimeInterval beginTime;
+
 //总时长
-@property (nonatomic, assign) NSTimeInterval totalTime;
+@property (nonatomic, assign) NSTimeInterval duration;
 
 //分段时长
 @property (nonatomic, copy) NSArray *segementTimes;
@@ -23,11 +26,12 @@
 
 @implementation YKLRCModel
 
-+ (instancetype)LRCWithContent:(NSString*)content totalTime:(NSTimeInterval)time segementTimes:(NSArray*)times{
++ (instancetype)LRCWithContent:(NSString*)content duration:(NSTimeInterval)duration beginTime:(NSTimeInterval)beginTime segementTimes:(NSArray*)times{
     YKLRCModel *model = [[YKLRCModel alloc] init];
     
     model.text = content;
-    model.totalTime = time;
+    model.duration = duration;
+    model.beginTime = beginTime;
     model.segementTimes = times;
     
     return model;
