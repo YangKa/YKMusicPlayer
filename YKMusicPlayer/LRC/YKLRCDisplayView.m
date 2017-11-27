@@ -19,9 +19,11 @@
     
     CADisplayLink *playLink;
     
-    NSInteger _curRow;
-    float _totalTime;
+    NSUInteger _lastProcessLine;
+    NSUInteger _curProcessLine;
 }
+
+@property (nonatomic, assign) BOOL isScrolling;
 
 @end
 
@@ -33,16 +35,16 @@ static CGFloat CellHeight = 50;
     self = [super initWithFrame:frame];
     if (self) {
         
-        _curRow = 0;
-        _totalTime = 0;
+        _lastProcessLine = 0;
+        _curProcessLine = 0;
         
         YKLRCParser *lrcPaser = [[YKLRCParser alloc] init];
         _lrclist = [lrcPaser paserLRCForFilePath:lrcFilePath];
         
         [self layoutUI];
-        [self scrollToNextWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        
-        [self beginPlay];
+
+        playLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshDispaly)];
+        [playLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     }
     return self;
 }
@@ -105,58 +107,97 @@ static CGFloat CellHeight = 50;
     YKLRCModel *model = _lrclist[indexPath.row];
     [cell setLRCText:model.text];
     
-    if (indexPath.row > _curRow ){
-        [cell setProgress:0.0];
+    if (indexPath.row > _curProcessLine ){
+        if (cell.progress != 0) {
+            cell.progress = 0.0;
+        }
     }
-    if (indexPath.row < _curRow) {
-        [cell setProgress:1.0];
+    if (indexPath.row < _curProcessLine) {
+        if (cell.progress != 1.0) {
+            cell.progress = 1.0;
+        }
     }
     
     return cell;
 }
 
-- (void)beginPlay{
-    playLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(refreshLRCList)];
-    [playLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+#pragma mark
+#pragma mark control LRC line scroll and render
+- (void)refreshDispaly{
+    NSTimeInterval frameTime = [YKMusicPlayeMananger manager].currentPlayTime;
+    [self seekToTime:frameTime];
 }
 
-- (void)refreshLRCList{
+- (void)seekToTime:(NSTimeInterval)frameTime{
     
+    _curProcessLine = [self lineIndexForTime:frameTime];
+    if (self.isScrolling) {
+        return;
+    }
     
-    NSTimeInterval interval = (NSTimeInterval)[YKMusicPlayeMananger manager].currentPlayTime;
+    if (_lastProcessLine != _curProcessLine) {
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:_curProcessLine inSection:0];
+        [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
     
-    YKLRCModel *model = _lrclist[_curRow];
-    CGFloat progress = (interval - model.beginTime)/model.duration;
+    _lastProcessLine = _curProcessLine;
     
-    if (progress >=1) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        if (_curRow == _lrclist.count -1 ) {
-            [playLink invalidate];
-        }else{
+        NSArray *cells = [tableView visibleCells];
+        for (YKLRCCell *cell in cells) {
+            NSIndexPath *indexPath = [tableView indexPathForCell:cell];
             
-            _curRow++;
-            [self scrollToNextWithIndexPath:[NSIndexPath indexPathForRow:_curRow inSection:0]];
+            if (indexPath.row < _curProcessLine) {
+                if (cell.progress != 1) {
+                    cell.progress = 1.0;
+                }
+            }else if (indexPath.row == _curProcessLine) {
+                
+                YKLRCModel *model = [_lrclist objectAtIndex:indexPath.row];
+                CGFloat progress = (frameTime - model.beginTime + 1)/model.duration;
+                progress = MAX(progress, 0);
+                
+                if ( (progress >= 1) && (indexPath.row  < _lrclist.count - 2) ) {
+                    
+                    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:0];
+                    [tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                }else{
+                    cell.progress = progress;
+                }
+                
+            }else if (indexPath.row > _curProcessLine){
+                if (cell.progress != 0) {
+                    cell.progress = 0.0;
+                }
+            }
         }
-        
-    }else{
-        YKLRCCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_curRow inSection:0]];
-        [cell setProgress:progress];
-    }
+    });
 }
 
-- (void)scrollToNextWithIndexPath:(NSIndexPath*)indexPath{
+- (NSUInteger)lineIndexForTime:(NSTimeInterval)time{
+    __block NSUInteger currentIndex = _curProcessLine;
+    [_lrclist enumerateObjectsUsingBlock:^(YKLRCModel  *model, NSUInteger index, BOOL * _Nonnull stop) {
+
+        if (time >= model.beginTime && time - model.beginTime < model.duration) {
+            
+            currentIndex = index;
+            *stop = YES;
+        }
+    }];
     
-    if (indexPath.row != 0) {
-        YKLRCCell *oldCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
-        oldCell.layer.transform = CATransform3DIdentity;
-        [oldCell setProgress:1.0];
-        oldCell.isBiggerText = NO;
-    }
+    return currentIndex;
+}
+
+#pragma mark
+#pragma mark reload data
+- (void)reloadUIWithMusic:(YKMusicModel*)music{
     
-    YKLRCCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-    newCell.isBiggerText = YES;
-    [newCell setProgress:0.0];
-    
-    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+}
+
+#pragma mark
+#pragma mark setter
+- (BOOL)isScrolling{
+    return tableView.isDragging || tableView.tracking;
 }
 @end

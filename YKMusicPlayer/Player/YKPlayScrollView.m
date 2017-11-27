@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) YKMusicModel *music;
 
+@property (nonatomic, strong) YKLRCDisplayView *LRCView;
+
 @end
 
 @implementation YKPlayScrollView
@@ -40,6 +42,7 @@
     
     YKLRCDisplayView *LRCView = [[YKLRCDisplayView alloc] initWithFrame:CGRectMake(width, 0, width, height) lrcFilePath:self.music.LRCFilePath];
     [self addSubview:LRCView];
+    self.LRCView = LRCView;
     
     self.contentSize = CGSizeMake(2*width, 0);
     self.pagingEnabled = YES;
@@ -48,4 +51,7 @@
     self.showsHorizontalScrollIndicator = NO;
 }
 
+- (void)reloadUIWithMusic:(YKMusicModel*)music{
+    
+}
 @end

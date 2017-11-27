@@ -18,6 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
+    [[UINavigationBar appearance] setBarTintColor:RGB_COLOR(84, 201, 144)];
+    NSDictionary *textDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],
+                              NSFontAttributeName:[UIFont boldSystemFontOfSize:17]
+                              };
+    [[UINavigationBar appearance] setTitleTextAttributes:textDic];
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[YKMusicListViewController new]];

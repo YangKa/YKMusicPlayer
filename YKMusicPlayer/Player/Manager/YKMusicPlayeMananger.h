@@ -20,8 +20,11 @@
 
 @property (nonatomic, readonly, assign, getter=isPause) BOOL pause;
 
+@property (nonatomic, strong) NSArray *musicList;
+
 + (instancetype)manager;
 
+//play message
 - (void)startPlayWithMusic:(YKMusicModel*)music;
 
 - (void)pausePlay;
@@ -30,6 +33,12 @@
 
 - (void)cancelPlay;
 
+
+//control message
 - (void)seekToTime:(CMTime)time;
+
+- (void)playNextMusic;
+
+- (void)playPreviewMusic;
 
 @end

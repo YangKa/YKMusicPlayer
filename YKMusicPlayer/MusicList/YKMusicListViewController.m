@@ -7,9 +7,9 @@
 //
 
 #import "YKMusicListViewController.h"
-#import "YKMusicParser.h"
 #import "YKMusicModel.h"
 #import "YKPlayViewController.h"
+#import "YKMusicPlayeMananger.h"
 
 @interface YKMusicListViewController ()
 
@@ -22,8 +22,9 @@ static NSString *CellIdentifer = @"CellIdentifer";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"列表";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.musicList = [YKMusicParser musicListWithFileName:@"Musics.plist"];
+    self.musicList = [YKMusicPlayeMananger manager].musicList;
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.estimatedRowHeight = 80;
@@ -40,7 +41,7 @@ static NSString *CellIdentifer = @"CellIdentifer";
     }
     
     YKMusicModel *model = self.musicList[indexPath.row];
-    cell.imageView.image = [UIImage imageNamed:model.iconName];
+   // cell.imageView.image = [UIImage imageNamed:model.iconName];
     cell.textLabel.text = model.title;
     cell.detailTextLabel.text = model.singerName;
     

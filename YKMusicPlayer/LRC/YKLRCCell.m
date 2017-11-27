@@ -13,6 +13,8 @@
     YKLRCLabel *label;
 }
 
+@property (nonatomic, assign) BOOL isBiggerText;
+
 @end
 
 @implementation YKLRCCell
@@ -34,7 +36,6 @@
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     
-    
     [self.contentView addSubview:label];
 }
 
@@ -49,7 +50,14 @@
 }
 
 - (void)setProgress:(CGFloat)prgress{
+    _progress = prgress;
+    
+    //进度
     label.progress = prgress;
+    
+    //字体
+    BOOL isprocess = (prgress > 0 && prgress < 1.0) ? YES:NO;
+    self.isBiggerText = isprocess;
 }
 
 - (void)setIsBiggerText:(BOOL)isBiggerText{

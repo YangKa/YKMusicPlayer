@@ -7,7 +7,7 @@
 //
 
 #import "YKMusicPlayeMananger.h"
-
+#import "YKMusicParser.h"
 
 @interface YKMusicPlayeMananger ()
 
@@ -36,11 +36,36 @@
     return instace;
 }
 
+//初始化重置
+- (void)resetPlayManager{
+    
+    if (self.player) {
+        [self.player pause];
+        self.player = nil;
+    }
+    self.playing = NO;
+    self.pause = NO;
+    self.currentPlayTime = 0;
+    
+    //remove KVO
+    [self.player.currentItem removeObserver:self forKeyPath:@"status"];
+    [self.player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [self.player removeTimeObserver:self.timeObserver];
+    self.timeObserver = nil;
+    
+    //remove notification
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark
+#pragma mark play single music
 - (void)startPlayWithMusic:(YKMusicModel*)music{
     
-    self.music = music;
+    //初始化重置
+    [self resetPlayManager];
     
     //初始化
+    self.music = music;
     NSURL *url = [NSURL fileURLWithPath:self.music.filePath];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
     
@@ -52,7 +77,7 @@
     [self.player.currentItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     
     //Notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playFinished) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
     
     //progress monitor
     __weak typeof(self) weakSelf = self;
@@ -61,8 +86,7 @@
             float current = CMTimeGetSeconds(time);
         	weakSelf.currentPlayTime = current;
     }];
-    
-    
+
     [self.player play];
 }
 
@@ -83,19 +107,13 @@
     self.pause = NO;
     [self.player pause];
     
-    //remove KVO
-    [self.player.currentItem removeObserver:self forKeyPath:@"status"];
-    [self.player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    
-    [self.player removeTimeObserver:self.timeObserver];
-    self.timeObserver = nil;
-    
-    //remove notification
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    self.player = nil;
-    self.currentPlayTime = 0;
-    
+    [self resetPlayManager];
+}
+
+- (void)playFinished{
+    self.playing = NO;
+    self.pause = NO;
+    [self resetPlayManager];
 }
 
 - (void)seekToTime:(CMTime)time{
@@ -103,9 +121,29 @@
 }
 
 #pragma mark
-#pragma mark AVAudioPlayerDelegate
-- (void)playFinished:(NSNotification*)notification{
+#pragma mark control
+- (void)playNextMusic{
+    NSUInteger index = 0;
+    if ([self.musicList containsObject:self.music]) {
+        index = [self.musicList indexOfObject:self.music];
+        index = (index < self.musicList.count - 1) ? (index + 1) : (self.musicList.count - 1) ;
+    }
     
+    if (index < self.musicList.count) {
+        [self startPlayWithMusic:self.musicList[index]];
+    }
+}
+
+- (void)playPreviewMusic{
+    NSUInteger index = 0;
+    if ([self.musicList containsObject:self.music]) {
+        index = [self.musicList indexOfObject:self.music];
+        index = (index > 0) ? index - 1:0;
+    }
+    
+    if (index < self.musicList.count) {
+        [self startPlayWithMusic:self.musicList[index]];
+    }
 }
 
 #pragma mark
@@ -133,6 +171,14 @@
  
 }
 
+#pragma mark
+#pragma mark getter
+- (NSArray *)musicList{
+    if (!_musicList){
+        _musicList = [YKMusicParser musicListWithFileName:@"Musics.plist"];
+    }
+    return _musicList;
+}
 
 
 @end

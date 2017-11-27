@@ -76,4 +76,8 @@ static NSString *RotationAnimationKey = @"rotation";
     return animation;
 }
 
+- (void)reloadUIWithMusic:(YKMusicModel*)music{
+    
+}
+
 @end

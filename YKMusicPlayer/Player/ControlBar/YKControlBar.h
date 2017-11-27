@@ -7,10 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
+
+@class YKControlBar;
 @class YKMusicModel;
+
+@protocol YKControlBarDelegate <NSObject>
+
+- (void)didNextMusicWithControlBar:(YKControlBar*)controlBar;
+
+- (void)didPreviewMusicWithControlBar:(YKControlBar*)controlBar;
+
+- (void)didPlayMusicWithControlBar:(YKControlBar*)controlBar;
+
+- (void)didPauseMusicWithControlBar:(YKControlBar*)controlBar;
+
+@end
 
 @interface YKControlBar : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
+- (instancetype)initWithFrame:(CGRect)frame delegate:(id)target music:(YKMusicModel*)music;
+
+- (void)resetUI;
 
 @end

@@ -83,10 +83,10 @@
 
 //slider scroll end
 - (void)sliderValueChange:(UISlider*)slider{
-    
-    [[YKMusicPlayeMananger manager] seekToTime:CMTimeMake((int)slider.value, (int)slider.maximumValue)];
-    
     _progress = slider.value;
+    
+    [[YKMusicPlayeMananger manager] seekToTime:CMTimeMake((int)_progress, 1)];
+    
     NSTimeInterval time = (NSTimeInterval)slider.value;
     self.progressTimeLabel.text = [self timeFormatWithIntervalTime:time];
 }
@@ -102,10 +102,14 @@
         return;
     }
     
+    _progress = progress;
+    
+    //更新时间
+    self.progressTimeLabel.text = [self timeFormatWithIntervalTime:(NSTimeInterval)progress];
+    
     //更新进度条
     if (!_sliding) {
-        [self.slider setValue:progress animated:NO];
-        self.progressTimeLabel.text = [self timeFormatWithIntervalTime:(NSTimeInterval)progress];
+        [self.slider setValue:_progress animated:NO];
     }
 }
 

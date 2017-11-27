@@ -12,8 +12,6 @@
 
 - (void)setLRCText:(NSString*)text;
 
-- (void)setProgress:(CGFloat)prgress;
-
-@property (nonatomic, assign) BOOL isBiggerText;
+@property (nonatomic, assign) CGFloat progress;
 
 @end

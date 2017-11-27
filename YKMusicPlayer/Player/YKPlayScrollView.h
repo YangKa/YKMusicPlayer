@@ -13,4 +13,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
 
+- (void)reloadUIWithMusic:(YKMusicModel*)music;
+
 @end

@@ -13,6 +13,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
 
+- (void)reloadUIWithMusic:(YKMusicModel*)music;
+
 - (void)stopRotationAnimation;
 
 @end

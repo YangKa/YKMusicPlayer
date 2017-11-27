@@ -72,7 +72,6 @@
     //time
     NSTimeInterval duration = 0;
     NSTimeInterval beginTime = 0;
-    NSTimeInterval endTime = 0;
     
     NSMutableArray *timeList = [NSMutableArray array];
     for (int i =0; i < list.count; i++) {
