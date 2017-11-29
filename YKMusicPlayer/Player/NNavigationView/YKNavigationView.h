@@ -10,6 +10,8 @@
 
 @interface YKNavigationView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString*)title dismiss:(dispatch_block_t)dimissBlock;
+- (instancetype)initWithFrame:(CGRect)frame dismiss:(dispatch_block_t)dimissBlock;
+
+- (void)reloadUIWithTitle:(NSString*)title;
 
 @end

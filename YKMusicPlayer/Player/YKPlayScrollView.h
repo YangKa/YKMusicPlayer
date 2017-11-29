@@ -11,7 +11,7 @@
 
 @interface YKPlayScrollView : UIScrollView
 
-- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
+@property (nonatomic, assign) BOOL playing;
 
 - (void)reloadUIWithMusic:(YKMusicModel*)music;
 

@@ -33,12 +33,11 @@
 
 @implementation YKControlBar
 
-- (instancetype)initWithFrame:(CGRect)frame delegate:(id)target music:(YKMusicModel*)music
+- (instancetype)initWithFrame:(CGRect)frame delegate:(id)target
 {
     self = [super initWithFrame:frame];
     if (self) {
         _delegate = target;
-        _music = music;
         
         //verify delegate
         _previewDelegate = (_delegate && [_delegate respondsToSelector:@selector(didPreviewMusicWithControlBar:)]);
@@ -49,13 +48,10 @@
         //layout UI
         [self layoutUI];
         
-        //disable control bar
         _playBtn.enabled = NO;
+        _playBtn.selected = NO;
         _previewBtn.enabled = NO;
         _nextBtn.enabled = NO;
-        
-        //init progress
-        [self.progressView setDuration:_music.totalDuration progress:0];
     }
     return self;
 }
@@ -94,7 +90,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentPlayTime"]) {
-        CGFloat progress = [change[NSKeyValueChangeNewKey] floatValue];
+        CGFloat time = [change[NSKeyValueChangeNewKey] floatValue];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //enable control bar
@@ -105,7 +101,7 @@
                 _nextBtn.enabled = YES;
             }
             //show play progress
-            self.progressView.progress = progress;
+            self.progressView.progress = time;
         });
     }
 }
@@ -139,7 +135,17 @@
 
 #pragma mark
 #pragma mark public method
-- (void)resetUI{
+- (void)reloadUIWithMusic:(YKMusicModel*)music{
     
+    self.music = music;
+    
+    //disable control bar
+    _playBtn.enabled = NO;
+    _playBtn.selected = NO;
+    _previewBtn.enabled = NO;
+    _nextBtn.enabled = NO;
+    
+    //init progress
+    [self.progressView setDuration:self.music.totalDuration progress:0];
 }
 @end

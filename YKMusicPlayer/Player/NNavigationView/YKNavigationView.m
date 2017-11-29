@@ -10,13 +10,15 @@
 
 @interface YKNavigationView ()
 
+@property (nonatomic, strong) UILabel *titleLabel;
+
 @property (nonatomic, copy) dispatch_block_t dimissBlock;
 
 @end
 
 @implementation YKNavigationView
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString*)title dismiss:(dispatch_block_t)dimissBlock
+- (instancetype)initWithFrame:(CGRect)frame dismiss:(dispatch_block_t)dimissBlock
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -30,12 +32,10 @@
         [self addSubview:backButton];
         
         UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.text = title;
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        [titleLabel sizeToFit];
-        titleLabel.center = CGPointMake(self.yk_width/2, 40);
         [self addSubview:titleLabel];
+        self.titleLabel = titleLabel;
     }
     return self;
 }
@@ -44,6 +44,13 @@
     if (_dimissBlock) {
         _dimissBlock();
     }
+}
+
+- (void)reloadUIWithTitle:(NSString*)title{
+    self.titleLabel.text = title;
+    [self.titleLabel sizeToFit];
+    self.titleLabel.center = CGPointMake(self.yk_width/2, 40);
+    
 }
 
 @end

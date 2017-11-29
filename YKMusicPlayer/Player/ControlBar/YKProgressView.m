@@ -21,6 +21,8 @@
 
 @property (nonatomic, strong) UILabel *totalTimeLabel;
 
+@property (nonatomic, strong) CADisplayLink *refreshLink;
+
 @end
 
 @implementation YKProgressView
@@ -55,7 +57,7 @@
     self.totalTimeLabel = rightLabel;
     
     UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(leftLabel.yk_maxX + 5, 18, self.yk_width - 2*(leftLabel.yk_maxX + 5), 4)];
-    slider.tintColor = RGB_COLOR(58, 193, 126);
+    slider.tintColor = RGB_COLOR(41, 252, 47);
     [slider setThumbImage:[UIImage imageNamed:@"color_clear"] forState:UIControlStateNormal];
     [slider setThumbImage:[UIImage imageNamed:@"color_green"] forState:UIControlStateHighlighted];
     slider.minimumValue = 0;

@@ -81,7 +81,7 @@
     
     //progress monitor
     __weak typeof(self) weakSelf = self;
-    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_global_queue(0, 0) usingBlock:^(CMTime time) {
+    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 10) queue:dispatch_get_global_queue(0, 0) usingBlock:^(CMTime time) {
             //当前播放的时间
             float current = CMTimeGetSeconds(time);
         	weakSelf.currentPlayTime = current;

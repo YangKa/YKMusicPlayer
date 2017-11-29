@@ -11,9 +11,13 @@
 #import "YKControlBar.h"
 #import "YKNavigationView.h"
 #import "YKMusicPlayeMananger.h"
-@interface YKPlayViewController ()<YKControlBarDelegate>
+@interface YKPlayViewController ()<YKControlBarDelegate>{
+    BOOL _isNotFirstShow;
+}
 
 @property (nonatomic, strong) YKMusicModel *music;
+
+@property (nonatomic, strong) YKNavigationView *navView;
 
 @property (nonatomic, strong) YKControlBar *controlBar;
 
@@ -37,14 +41,22 @@ static NSString *KVOKeyPath = @"currentPlayTime";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [self layoutUI];
-    
-    [[YKMusicPlayeMananger manager] startPlayWithMusic:_music];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    if (!_isNotFirstShow) {
+        _isNotFirstShow = YES;
+        [self layoutUI];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[YKMusicPlayeMananger manager] startPlayWithMusic:_music];
+    
+    [self reloadUIData];
     
     [[YKMusicPlayeMananger manager] addObserver:self.controlBar forKeyPath:KVOKeyPath options:NSKeyValueObservingOptionNew context:nil];
 }
@@ -72,24 +84,23 @@ static NSString *KVOKeyPath = @"currentPlayTime";
     UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:backView];
     
-    CGRect frame = CGRectMake(0, 0, self.view.yk_width, self.view.yk_height - 100);
-    YKPlayScrollView *playScrollView = [[YKPlayScrollView alloc] initWithFrame:frame music:self.music];
-    [backView addSubview:playScrollView];
-    self.playScrollView = playScrollView;
-    
-    //控制栏
-    CGRect frame1 = CGRectMake(0, playScrollView.yk_maxY, self.view.yk_width, self.view.yk_height - playScrollView.yk_maxY);
-    YKControlBar *controlBar = [[YKControlBar alloc] initWithFrame:frame1 delegate:self music:self.music];
-    [backView addSubview:controlBar];
-    self.controlBar = controlBar;
-    
     //导航栏
-    YKNavigationView *navView = [[YKNavigationView alloc] initWithFrame:CGRectMake(0, 0, backView.yk_width, 64) title:self.music.title dismiss:^{
+    YKNavigationView *navView = [[YKNavigationView alloc] initWithFrame:CGRectMake(0, 0, backView.yk_width, 64) dismiss:^{
         
         [[YKMusicPlayeMananger manager] cancelPlay];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     [backView addSubview:navView];
+    self.navView = navView;
+    
+    //控制栏
+    YKControlBar *controlBar = [[YKControlBar alloc] initWithFrame:CGRectMake(0, backView.yk_height - 100, self.view.yk_width, 100) delegate:self];
+    [backView addSubview:controlBar];
+    self.controlBar = controlBar;
+    
+    YKPlayScrollView *playScrollView = [[YKPlayScrollView alloc] initWithFrame:CGRectMake(0, navView.yk_maxY, backView.yk_width,backView.yk_height - controlBar.yk_height - navView.yk_height)];
+    [backView addSubview:playScrollView];
+    self.playScrollView = playScrollView;
 }
 
 #pragma mark
@@ -106,9 +117,11 @@ static NSString *KVOKeyPath = @"currentPlayTime";
 
 - (void)didPlayMusicWithControlBar:(YKControlBar*)controlBar{
     [[YKMusicPlayeMananger manager] resumePlay];
+    self.playScrollView.playing = YES;
 }
 
 - (void)didPauseMusicWithControlBar:(YKControlBar*)controlBar{
+    self.playScrollView.playing = NO;
     [[YKMusicPlayeMananger manager] pausePlay];
 }
 
@@ -117,11 +130,15 @@ static NSString *KVOKeyPath = @"currentPlayTime";
 - (void)reloadUIData{
     YKMusicModel *music = [YKMusicPlayeMananger manager].music;
     
+    //navigation
+    [self.navView reloadUIWithTitle:music.title];
+    
     //refresh play page  and LRC page
     [self.playScrollView  reloadUIWithMusic:music];
+    self.playScrollView.playing = YES;
     
     //refresh control bar
-    [self.controlBar resetUI];
+    [self.controlBar reloadUIWithMusic:music];
 }
 
 @end

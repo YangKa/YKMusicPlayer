@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
-    [[UINavigationBar appearance] setBarTintColor:RGB_COLOR(84, 201, 144)];
+    [[UINavigationBar appearance] setBarTintColor:RGB_COLOR(41, 252, 47)];
     NSDictionary *textDic = @{NSForegroundColorAttributeName:[UIColor whiteColor],
                               NSFontAttributeName:[UIFont boldSystemFontOfSize:17]
                               };

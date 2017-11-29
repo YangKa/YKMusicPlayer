@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YKMusicModel.h"
 
 @interface YKLRCDisplayView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame lrcFilePath:(NSString*)lrcFilePath;
+- (void)reloadUIWithMusicLRCList:(NSArray*)list;
+
+- (void)seekToLineIndex:(NSUInteger)index progress:(CGFloat)progress;
 
 @end

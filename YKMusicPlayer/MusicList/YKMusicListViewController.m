@@ -38,10 +38,11 @@ static NSString *CellIdentifer = @"CellIdentifer";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifer];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifer];
+        
     }
     
     YKMusicModel *model = self.musicList[indexPath.row];
-   // cell.imageView.image = [UIImage imageNamed:model.iconName];
+    cell.imageView.image = [UIImage imageNamed:model.iconName];
     cell.textLabel.text = model.title;
     cell.detailTextLabel.text = model.singerName;
     

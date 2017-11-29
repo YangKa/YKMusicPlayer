@@ -11,10 +11,10 @@
 
 @interface YKPlayView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame music:(YKMusicModel*)music;
+@property (nonatomic, assign) BOOL playing;
 
-- (void)reloadUIWithMusic:(YKMusicModel*)music;
+- (void)reloadUIWithIconImage:(UIImage*)image singer:(NSString*)singer;
 
-- (void)stopRotationAnimation;
+- (void)showLRCText:(NSString*)LRCText progress:(CGFloat)progress;
 
 @end

@@ -25,8 +25,8 @@
 
 @interface YKControlBar : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame delegate:(id)target music:(YKMusicModel*)music;
+- (instancetype)initWithFrame:(CGRect)frame delegate:(id)target;
 
-- (void)resetUI;
+- (void)reloadUIWithMusic:(YKMusicModel*)music;
 
 @end

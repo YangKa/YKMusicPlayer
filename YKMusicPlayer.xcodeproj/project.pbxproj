@@ -159,6 +159,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70C49CF61FCE510100B6B713 /* PlayView */ = {
+			isa = PBXGroup;
+			children = (
+				8F8F71A81FC3EA2C00788266 /* YKPlayView.h */,
+				8F8F71A91FC3EA2C00788266 /* YKPlayView.m */,
+			);
+			path = PlayView;
+			sourceTree = "<group>";
+		};
+		70C49CF71FCE511500B6B713 /* NNavigationView */ = {
+			isa = PBXGroup;
+			children = (
+				70DB6ADE1FC81A6000DC42CF /* YKNavigationView.h */,
+				70DB6ADF1FC81A6000DC42CF /* YKNavigationView.m */,
+			);
+			path = NNavigationView;
+			sourceTree = "<group>";
+		};
 		70DB6AD61FC7F4C100DC42CF /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,12 +274,10 @@
 				8F8F71B51FC3EA9D00788266 /* YKPlayViewController.m */,
 				8F8F71C31FC4057F00788266 /* YKPlayScrollView.h */,
 				8F8F71C41FC4057F00788266 /* YKPlayScrollView.m */,
+				70C49CF71FCE511500B6B713 /* NNavigationView */,
+				70C49CF61FCE510100B6B713 /* PlayView */,
 				8F1CB5881FC94CB3004C4E00 /* Manager */,
 				8F1CB5871FC91F5C004C4E00 /* ControlBar */,
-				8F8F71A81FC3EA2C00788266 /* YKPlayView.h */,
-				8F8F71A91FC3EA2C00788266 /* YKPlayView.m */,
-				70DB6ADE1FC81A6000DC42CF /* YKNavigationView.h */,
-				70DB6ADF1FC81A6000DC42CF /* YKNavigationView.m */,
 			);
 			path = Player;
 			sourceTree = "<group>";
