@@ -15,6 +15,8 @@
 
 @property (nonatomic,  assign) float currentPlayTime;
 
+@property (nonatomic,  assign) float playProgress;
+
 @property (nonatomic,  assign) BOOL playing;
 
 @property (nonatomic,  assign) BOOL pause;
@@ -45,13 +47,17 @@
     }
     self.playing = NO;
     self.pause = NO;
-    self.currentPlayTime = 0;
     
     //remove KVO
     [self.player.currentItem removeObserver:self forKeyPath:@"status"];
     [self.player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    [self.player removeTimeObserver:self.timeObserver];
-    self.timeObserver = nil;
+    
+    if (self.timeObserver) {
+        [self.player removeTimeObserver:self.timeObserver];
+        self.timeObserver = nil;
+    }
+    self.currentPlayTime = 0;
+    self.playProgress = 0.0;
     
     //remove notification
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -80,11 +86,24 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playFinished) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
     
     //progress monitor
+    self.currentPlayTime = 0;
+    self.playProgress = 0.0;
     __weak typeof(self) weakSelf = self;
-    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 10) queue:dispatch_get_global_queue(0, 0) usingBlock:^(CMTime time) {
-            //当前播放的时间
-            float current = CMTimeGetSeconds(time);
-        	weakSelf.currentPlayTime = current;
+    
+    dispatch_queue_t queue = dispatch_queue_create("com.serial.timeObserver", DISPATCH_QUEUE_SERIAL);
+    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(30, 1000) queue:queue usingBlock:^(CMTime time) {
+        
+        if (CMTimeCompare(time, kCMTimeZero) == 0) {
+            NSLog(@"CMTimeCompare zero");
+        }
+        
+        //当前播放的时间
+        float current = CMTimeGetSeconds(time);
+         //NSLog(@"当前播放的时间 %f", current);
+        if (current >= weakSelf.currentPlayTime) {
+            weakSelf.currentPlayTime = current;
+            weakSelf.playProgress = current / weakSelf.music.totalDuration;
+        }
     }];
 
     [self.player play];
@@ -168,7 +187,6 @@
         NSArray * ranges = change[NSKeyValueChangeNewKey];
         NSLog(@"ranges=%@", ranges);
     }
- 
 }
 
 #pragma mark

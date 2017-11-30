@@ -91,7 +91,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentPlayTime"]) {
         CGFloat time = [change[NSKeyValueChangeNewKey] floatValue];
-        
+       //  NSLog(@"--------%@ %f", [NSDate date], time);
         dispatch_async(dispatch_get_main_queue(), ^{
             //enable control bar
             if (!_playBtn.isEnabled) {

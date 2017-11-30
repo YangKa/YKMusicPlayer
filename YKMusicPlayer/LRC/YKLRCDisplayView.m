@@ -39,12 +39,11 @@ static CGFloat CellHeight = 50;
     gradientLayer.frame  = CGRectMake(0, 0, self.frame.size.width,  self.frame.size.height);
     gradientLayer.colors = @[(id)[UIColor colorWithWhite:0 alpha:0.05].CGColor,
                              (id)[UIColor colorWithWhite:0 alpha:0.1].CGColor,
-                             (id)[UIColor colorWithWhite:0 alpha:0.2].CGColor,
-                             (id)[UIColor colorWithWhite:0 alpha:0.4].CGColor,
-                             (id)[UIColor colorWithWhite:0 alpha:0.6].CGColor];
+                             (id)[UIColor colorWithWhite:0 alpha:1.0].CGColor,
+                             (id)[UIColor colorWithWhite:0 alpha:0.05].CGColor];
     gradientLayer.startPoint = CGPointMake(0, 0);
     gradientLayer.endPoint = CGPointMake(0, 1);
-    gradientLayer.locations = @[@0, @0.1, @0.2, @0.35, @0.45, @0.5];
+    gradientLayer.locations = @[@0, @0.2, @0.3, @0.95, @1.0];
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width,  self.frame.size.height)];
     [self addSubview:backView];
@@ -72,8 +71,6 @@ static CGFloat CellHeight = 50;
     UIView *downLine = [[UIView alloc] initWithFrame:CGRectMake(0, paddding + CellHeight, tableView.frame.size.width, 1)];
     downLine.backgroundColor = [UIColor greenColor];
     [self addSubview:downLine];
-    
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -124,7 +121,6 @@ static CGFloat CellHeight = 50;
     }
     _lastProcessLine = index;
     
-    
     if ([self isScrolling]) {
         return;
     }
@@ -148,7 +144,6 @@ static CGFloat CellHeight = 50;
                 }else{
                     cell.progress = progress;
                 }
-                
             }else if (indexPath.row > _lastProcessLine){
                 if (cell.progress != 0) {
                     cell.progress = 0.0;

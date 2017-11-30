@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YKMusicListViewController : UITableViewController
+@interface YKMusicListViewController : UIViewController
 
 @end

@@ -10,9 +10,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import "YKMusicModel.h"
 
+
 @interface YKMusicPlayeMananger : NSObject
 
 @property (nonatomic, readonly, strong) YKMusicModel *music;
+
+@property (nonatomic, readonly, assign) float playProgress;
 
 @property (nonatomic, readonly, assign) float currentPlayTime;
 

@@ -57,7 +57,7 @@
     self.totalTimeLabel = rightLabel;
     
     UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(leftLabel.yk_maxX + 5, 18, self.yk_width - 2*(leftLabel.yk_maxX + 5), 4)];
-    slider.tintColor = RGB_COLOR(41, 252, 47);
+    slider.tintColor = CustomColor_1;
     [slider setThumbImage:[UIImage imageNamed:@"color_clear"] forState:UIControlStateNormal];
     [slider setThumbImage:[UIImage imageNamed:@"color_green"] forState:UIControlStateHighlighted];
     slider.minimumValue = 0;
@@ -103,11 +103,12 @@
         self.progress = 0;
         return;
     }
-    
     _progress = progress;
     
     //更新时间
-    self.progressTimeLabel.text = [self timeFormatWithIntervalTime:(NSTimeInterval)progress];
+    NSString *timeText = [self timeFormatWithIntervalTime:(NSTimeInterval)_progress];
+   
+    self.progressTimeLabel.text = timeText;
     
     //更新进度条
     if (!_sliding) {

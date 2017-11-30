@@ -11,6 +11,7 @@
 #import "YKControlBar.h"
 #import "YKNavigationView.h"
 #import "YKMusicPlayeMananger.h"
+
 @interface YKPlayViewController ()<YKControlBarDelegate>{
     BOOL _isNotFirstShow;
 }
@@ -25,18 +26,7 @@
 
 @end
 
-
-static NSString *KVOKeyPath = @"currentPlayTime";
-
 @implementation YKPlayViewController
-
-- (instancetype)initWithMusic:(YKMusicModel*)music{
-    self = [super init];
-    if (self){
-        _music = music;
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,17 +44,15 @@ static NSString *KVOKeyPath = @"currentPlayTime";
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [[YKMusicPlayeMananger manager] startPlayWithMusic:_music];
     
     [self reloadUIData];
-    
-    [[YKMusicPlayeMananger manager] addObserver:self.controlBar forKeyPath:KVOKeyPath options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self.controlBar forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     
-    [[YKMusicPlayeMananger manager] removeObserver:self.controlBar forKeyPath:KVOKeyPath];
+    [[YKMusicPlayeMananger manager] removeObserver:self.controlBar forKeyPath:@"currentPlayTime"];
 }
 
 - (void)layoutUI{
@@ -86,8 +74,6 @@ static NSString *KVOKeyPath = @"currentPlayTime";
     
     //导航栏
     YKNavigationView *navView = [[YKNavigationView alloc] initWithFrame:CGRectMake(0, 0, backView.yk_width, 64) dismiss:^{
-        
-        [[YKMusicPlayeMananger manager] cancelPlay];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     [backView addSubview:navView];

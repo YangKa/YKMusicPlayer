@@ -37,7 +37,7 @@ static NSString *RotationAnimationKey = @"rotation";
 
 - (void)layoutUI{
     
-    UILabel *singerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, self.yk_width, 30)];
+    UILabel *singerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 00, self.yk_width, 30)];
     singerLabel.textColor = [UIColor whiteColor];
     singerLabel.textAlignment = NSTextAlignmentCenter;
     singerLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -47,7 +47,7 @@ static NSString *RotationAnimationKey = @"rotation";
     UIImageView *imageView = [[UIImageView alloc] init];
     CGFloat radius = self.yk_width * RadiusRatio;
     imageView.bounds = CGRectMake(0, 0, radius, radius);
-    imageView.center = CGPointMake(self.yk_width/2, self.yk_height/2);
+    imageView.center = CGPointMake(self.yk_width/2, self.yk_height/2 - 20);
     imageView.layer.cornerRadius = radius/2;
     imageView.layer.masksToBounds = YES;
     imageView.layer.borderColor = [UIColor blackColor].CGColor;

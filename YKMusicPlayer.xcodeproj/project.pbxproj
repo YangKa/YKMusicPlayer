@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		70C49CFA1FCEBBEE00B6B713 /* YKPlayControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */; };
 		70DB6ADD1FC7F6B400DC42CF /* UIView+yk_Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6ADC1FC7F6B400DC42CF /* UIView+yk_Frame.m */; };
 		70DB6AE01FC81A6000DC42CF /* YKNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6ADF1FC81A6000DC42CF /* YKNavigationView.m */; };
 		70DB6AE31FC81DD200DC42CF /* YKMusicPlayeMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6AE21FC81DD200DC42CF /* YKMusicPlayeMananger.m */; };
@@ -68,6 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		70C49CF81FCEBBEE00B6B713 /* YKPlayControlBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKPlayControlBar.h; sourceTree = "<group>"; };
+		70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKPlayControlBar.m; sourceTree = "<group>"; };
 		70DB6AD51FC7F07600DC42CF /* YKMusicPlayer_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicPlayer_Header.h; sourceTree = "<group>"; };
 		70DB6ADB1FC7F6B400DC42CF /* UIView+yk_Frame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+yk_Frame.h"; sourceTree = "<group>"; };
 		70DB6ADC1FC7F6B400DC42CF /* UIView+yk_Frame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+yk_Frame.m"; sourceTree = "<group>"; };
@@ -291,6 +294,8 @@
 				8F8F71B81FC3EAAE00788266 /* YKMusicListViewController.m */,
 				8F6F07911FC6A46E00A331F8 /* YKMusicModel.h */,
 				8F6F07921FC6A46E00A331F8 /* YKMusicModel.m */,
+				70C49CF81FCEBBEE00B6B713 /* YKPlayControlBar.h */,
+				70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */,
 			);
 			path = MusicList;
 			sourceTree = "<group>";
@@ -488,6 +493,7 @@
 				8F8F71AD1FC3EA3700788266 /* YKControlBar.m in Sources */,
 				8F1CB5861FC90DE2004C4E00 /* YKProgressView.m in Sources */,
 				8F6F07931FC6A46F00A331F8 /* YKMusicModel.m in Sources */,
+				70C49CFA1FCEBBEE00B6B713 /* YKPlayControlBar.m in Sources */,
 				70DB6AE31FC81DD200DC42CF /* YKMusicPlayeMananger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -562,7 +568,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -611,7 +617,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -627,6 +633,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YKMusicPlayer/YKMusicPlayer_Header.h";
 				INFOPLIST_FILE = YKMusicPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yangka.YKMusicPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -643,6 +650,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YKMusicPlayer/YKMusicPlayer_Header.h";
 				INFOPLIST_FILE = YKMusicPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yangka.YKMusicPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -11,6 +11,4 @@
 
 @interface YKPlayViewController : UIViewController
 
-- (instancetype)initWithMusic:(YKMusicModel*)music;
-
 @end
