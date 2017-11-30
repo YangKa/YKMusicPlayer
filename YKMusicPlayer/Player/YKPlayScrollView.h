@@ -15,4 +15,6 @@
 
 - (void)reloadUIWithMusic:(YKMusicModel*)music;
 
+- (void)refreshUI;
+
 @end

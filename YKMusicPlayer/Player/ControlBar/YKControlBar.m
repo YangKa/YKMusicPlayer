@@ -84,20 +84,16 @@
     self.playBtn = playBtn;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"currentPlayTime"]) {
-        CGFloat time = [change[NSKeyValueChangeNewKey] floatValue];
-       //  NSLog(@"--------%@ %f", [NSDate date], time);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //enable control bar
-            if (!_playBtn.isSelected) {
-                _playBtn.selected = YES;
-            }
-            
-            //show play progress
-            self.progressView.progress = time;
-        });
-    }
+#pragma mark
+#pragma mark refesh
+- (void)refreshUI{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _playBtn.selected = [YKMusicPlayeMananger manager].isPlaying;
+        
+        //show play progress
+        self.progressView.progress = [YKMusicPlayeMananger manager].currentPlayTime;
+    });
 }
 
 #pragma mark

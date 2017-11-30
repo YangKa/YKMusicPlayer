@@ -12,11 +12,9 @@
 #import "YKNavigationView.h"
 #import "YKMusicPlayeMananger.h"
 
-@interface YKPlayViewController ()<YKControlBarDelegate>{
+@interface YKPlayViewController ()<YKControlBarDelegate, UIScrollViewDelegate>{
     BOOL _isNotFirstShow;
 }
-
-@property (nonatomic, strong) YKMusicModel *music;
 
 @property (nonatomic, strong) UIImageView *bgImageView;
 
@@ -25,6 +23,8 @@
 @property (nonatomic, strong) YKControlBar *controlBar;
 
 @property (nonatomic, strong) YKPlayScrollView *playScrollView;
+
+@property (nonatomic, strong) UIPageControl *pageControl;
 
 @end
 
@@ -41,20 +41,20 @@
     if (!_isNotFirstShow) {
         _isNotFirstShow = YES;
         [self layoutUI];
+        [self reloadUIData];
     }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-    [self reloadUIData];
-    [[YKMusicPlayeMananger manager] addObserver:self.controlBar forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUIData) name:PlayNextMusicNotificationKey object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    
-    [[YKMusicPlayeMananger manager] removeObserver:self.controlBar forKeyPath:@"currentPlayTime"];
+    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"currentPlayTime"];
+     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)layoutUI{
@@ -87,9 +87,32 @@
     self.controlBar = controlBar;
     
     YKPlayScrollView *playScrollView = [[YKPlayScrollView alloc] initWithFrame:CGRectMake(0, navView.yk_maxY, backView.yk_width,backView.yk_height - controlBar.yk_height - navView.yk_height)];
+    playScrollView.delegate = self;
     [backView addSubview:playScrollView];
     self.playScrollView = playScrollView;
+    
+    [self.view addSubview:self.pageControl];
+    self.pageControl.currentPage = 0 ;
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"currentPlayTime"]) {
+        CGFloat progress = [[change valueForKey:NSKeyValueChangeNewKey] floatValue];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.playScrollView refreshUI];
+            [self.controlBar refreshUI];
+        });
+    }
+}
+
+#pragma mark
+#pragma mark UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    NSUInteger pageIndex = (scrollView.contentOffset.x + scrollView.yk_width/2) / scrollView.yk_width;
+    self.pageControl.currentPage = pageIndex;
+}
+
 
 #pragma mark
 #pragma mark YKControlBarDelegate
@@ -118,7 +141,8 @@
 - (void)reloadUIData{
     YKMusicModel *music = [YKMusicPlayeMananger manager].music;
     
-    self.bgImageView.image = [UIImage imageNamed:self.music.bigIconName];
+    UIImage *image = [UIImage imageNamed:music.bigIconName];
+    self.bgImageView.image = image;
     
     //navigation
     [self.navView reloadUIWithTitle:music.title];
@@ -131,4 +155,15 @@
     [self.controlBar reloadUIWithMusic:music];
 }
 
+#pragma mark
+#pragma mark
+- (UIPageControl*)pageControl{
+    if (!_pageControl) {
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((self.view.yk_width - 60)/2, self.playScrollView.yk_maxY - 30, 60, 30)];
+        _pageControl.numberOfPages = 2;
+        _pageControl.currentPageIndicatorTintColor = [UIColor greenColor];
+        _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+    }
+    return _pageControl;
+}
 @end

@@ -10,7 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "YKMusicModel.h"
 
-
 @interface YKMusicPlayeMananger : NSObject
 
 @property (nonatomic, readonly, strong) YKMusicModel *music;

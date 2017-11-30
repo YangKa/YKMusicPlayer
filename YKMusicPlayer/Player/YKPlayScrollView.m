@@ -17,8 +17,6 @@
 
 @property (nonatomic, copy) NSArray *LRCList;
 
-@property (nonatomic, strong) YKMusicModel *music;
-
 @property (nonatomic, strong) YKPlayView *playView;
 
 @property (nonatomic, strong) YKLRCDisplayView *LRCView;
@@ -34,8 +32,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.dispalyLink = [CADisplayLink displayLinkWithTarget:self  selector:@selector(refreshUI)];
-        self.dispalyLink.paused = YES;
-        [self.dispalyLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+//        self.dispalyLink.paused = YES;
+//        [self.dispalyLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         
         [self layoutUI];
     }
@@ -43,8 +41,8 @@
 }
 
 - (void)dealloc{
-    [self.dispalyLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-    self.dispalyLink = nil;
+//    [self.dispalyLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+//    self.dispalyLink = nil;
 }
 
 - (void)layoutUI{
@@ -70,24 +68,26 @@
 #pragma mark
 #pragma mark refresh
 - (void)reloadUIWithMusic:(YKMusicModel*)music{
-    self.music = music;
     
     //LRC paser
     YKLRCParser *lrcPaser = [[YKLRCParser alloc] init];
-    self.LRCList = [lrcPaser paserLRCForFilePath:self.music.LRCFilePath];
+    self.LRCList = [lrcPaser paserLRCForFilePath:music.LRCFilePath];
     
     //刷新
-    [self.playView reloadUIWithIconImage:[UIImage imageNamed:self.music.iconName] singer:self.music.singerName];
+    [self.playView reloadUIWithIconImage:[UIImage imageNamed:music.iconName] singer:music.singerName];
     [self.LRCView reloadUIWithMusicLRCList:self.LRCList];
+    
+    //刷新界面进度
+    [self refreshUI];
 }
 
 - (void)refreshUI{
     
-    NSTimeInterval time = [YKMusicPlayeMananger manager].currentPlayTime;
+    CGFloat time = [YKMusicPlayeMananger manager].currentPlayTime;
     NSInteger index = [self lineIndexForTime:time];
     
-    
     if (index < 0 || index >= self.LRCList.count) {
+        NSLog(@"行数越界");
         return;
     }
     
@@ -100,16 +100,28 @@
 
 #pragma mark
 #pragma mark private method
-- (NSInteger)lineIndexForTime:(NSTimeInterval)time{
+- (NSInteger)lineIndexForTime:(CGFloat)time{
     __block NSUInteger currentIndex = -1;
+    NSUInteger count = _LRCList.count;
     [_LRCList enumerateObjectsUsingBlock:^(YKLRCModel  *model, NSUInteger index, BOOL * _Nonnull stop) {
         
-        if (time >= model.beginTime && time - model.beginTime < model.duration) {
-            currentIndex = index;
-            *stop = YES;
+        if ( index == count - 1) {
+            if (time >= model.beginTime) {
+                currentIndex = index;
+            }
+        }else{
+            CGFloat beginTime = model.beginTime;
+            YKLRCModel  *nextModel = _LRCList[index + 1];
+            CGFloat nextBeginTime = nextModel.beginTime;
+            
+            if (time >= beginTime && time  < nextBeginTime) {
+                currentIndex = index;
+            }
         }
+        
+        if (currentIndex != -1) *stop = YES;
+        
     }];
-    
     return currentIndex;
 }
 
@@ -119,13 +131,11 @@
     
     self.playView.playing = playing;
     
-    if (playing) {
-        
-        self.dispalyLink.paused = NO;
-    }else{
-        
-        self.dispalyLink.paused = YES;
-    }
+//    if (playing) {
+//        self.dispalyLink.paused = NO;
+//    }else{
+//        self.dispalyLink.paused = YES;
+//    }
 }
 
 @end

@@ -16,4 +16,8 @@
 
 #import "UIView+yk_Frame.h"
 
+static NSString *PlayNextMusicNotificationKey = @"PlayNextMusicNotificationKey";
+
+static NSString *PlayPreviewMusicNotificationKey = @"PlayPreviewMusicNotificationKey";
+
 #endif /* YKMusicPlayer_Header_h */

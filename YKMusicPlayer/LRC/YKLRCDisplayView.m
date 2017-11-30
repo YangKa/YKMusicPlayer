@@ -167,6 +167,7 @@ static CGFloat CellHeight = 50;
 #pragma mark
 #pragma mark setter
 - (BOOL)isScrolling{
+ 
     return tableView.isDragging || tableView.tracking;
 }
 @end

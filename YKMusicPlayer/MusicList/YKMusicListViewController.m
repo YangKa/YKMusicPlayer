@@ -23,7 +23,7 @@
 @end
 
 static NSString *CellIdentifer = @"CellIdentifer";
-static CGFloat PlayControlBarHeight = 80;
+static CGFloat PlayControlBarHeight = 70;
 @implementation YKMusicListViewController
 
 - (void)viewDidLoad {
@@ -39,6 +39,7 @@ static CGFloat PlayControlBarHeight = 80;
    
     if ([YKMusicPlayeMananger manager].music) {
         [self showPlayControlBar];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshControlBar) name:PlayNextMusicNotificationKey object:nil];
     }else{
         [self removePlayControlBar];
     }
@@ -48,6 +49,7 @@ static CGFloat PlayControlBarHeight = 80;
     [super viewDidDisappear:animated];
     if (self.playControlBar){
         [[YKMusicPlayeMananger manager] removeObserver:self.playControlBar forKeyPath:@"playProgress"];
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 
@@ -107,6 +109,12 @@ static CGFloat PlayControlBarHeight = 80;
 - (void)showPlayView{
     YKPlayViewController *playVC = [[YKPlayViewController alloc] init];
     [self presentViewController:playVC animated:YES completion:nil];
+}
+
+- (void)refreshControlBar{
+    if (self.playControlBar) {
+        [self.playControlBar reloadUI];
+    }
 }
 
 - (void)showPlayControlBar{

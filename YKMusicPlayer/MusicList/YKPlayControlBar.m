@@ -52,23 +52,23 @@ static CGFloat ControlOregionWidth = 150;
     line.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     [self addSubview:line];
     
-    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
+    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
     [self addSubview:iconImageView];
     self.iconImageView = iconImageView;
     
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, self.yk_width - 20 - ControlOregionWidth, 20)];
-    nameLabel.textColor = [UIColor lightGrayColor];
-    nameLabel.font = [UIFont boldSystemFontOfSize:14];
-    nameLabel.adjustsFontSizeToFitWidth = YES;
-    [self addSubview:nameLabel];
-    self.nameLabel = nameLabel;
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, self.yk_width - 60 - ControlOregionWidth, 30)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, self.yk_width - 70 - ControlOregionWidth, 30)];
     titleLabel.textColor = [UIColor grayColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:18];
     titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:titleLabel];
     self.titleLabel = titleLabel;
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 40, self.yk_width - 70 - ControlOregionWidth, 20)];
+    nameLabel.textColor = [UIColor lightGrayColor];
+    nameLabel.font = [UIFont boldSystemFontOfSize:14];
+    nameLabel.adjustsFontSizeToFitWidth = YES;
+    [self addSubview:nameLabel];
+    self.nameLabel = nameLabel;
     
     UIButton *respondButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.yk_width - ControlOregionWidth - 10, self.yk_height)];
     [respondButton addTarget:self action:@selector(touchIconButton:) forControlEvents:UIControlEventTouchUpInside];

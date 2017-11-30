@@ -133,13 +133,34 @@
 }
 
 - (void)playFinished{
-    self.playing = NO;
-    self.pause = NO;
-    [self resetPlayManager];
+    NSUInteger index = [self.musicList indexOfObject:self.music];
+    if (self.playing && index < self.musicList.count - 1) {
+        [self playNextMusic];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PlayNextMusicNotificationKey object:nil];
+    }else{
+        self.playing = NO;
+        self.pause = NO;
+        [self resetPlayManager];
+    }
 }
 
 - (void)seekToTime:(CMTime)time{
+    if (self.playing) {
+        self.pause = YES;
+        [self.player pause];
+    }
+    
     [self.player seekToTime:time];
+    
+    //进度修改
+    CGFloat second = CMTimeGetSeconds(time);
+    self.currentPlayTime = second;
+    self.playProgress = second / self.music.totalDuration;
+    
+    if (self.playing) {
+         self.pause = NO;
+        [self.player play];
+    }
 }
 
 #pragma mark
@@ -184,11 +205,6 @@
                 
                 break;
         }
-    }
-    
-    if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-        NSArray * ranges = change[NSKeyValueChangeNewKey];
-        NSLog(@"ranges=%@", ranges);
     }
 }
 

@@ -14,10 +14,10 @@
 @property (nonatomic, copy) NSString *text;
 
 //开始时间
-@property (nonatomic, assign) NSTimeInterval beginTime;
+@property (nonatomic, assign) CGFloat beginTime;
 
 //总时长
-@property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic, assign) CGFloat duration;
 
 //分段时长
 @property (nonatomic, copy) NSArray *segementTimes;
@@ -26,7 +26,7 @@
 
 @implementation YKLRCModel
 
-+ (instancetype)LRCWithContent:(NSString*)content duration:(NSTimeInterval)duration beginTime:(NSTimeInterval)beginTime segementTimes:(NSArray*)times{
++ (instancetype)LRCWithContent:(NSString*)content duration:(CGFloat)duration beginTime:(CGFloat)beginTime segementTimes:(NSArray*)times{
     YKLRCModel *model = [[YKLRCModel alloc] init];
     
     model.text = content;

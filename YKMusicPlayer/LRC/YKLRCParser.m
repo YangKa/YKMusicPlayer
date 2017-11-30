@@ -70,13 +70,13 @@
     [list removeLastObject];
     
     //time
-    NSTimeInterval duration = 0;
-    NSTimeInterval beginTime = 0;
+    CGFloat duration = 0;
+    CGFloat beginTime = 0;
     
     NSMutableArray *timeList = [NSMutableArray array];
     for (int i =0; i < list.count; i++) {
         
-        NSTimeInterval segementInterval = [self timeIntervalForTimeText:list[i]];
+        CGFloat segementInterval = [self timeIntervalForTimeText:list[i]];
         beginTime += segementInterval;
         [timeList addObject:[NSNumber numberWithDouble:segementInterval]];
     }
@@ -86,7 +86,7 @@
     nextLine = [nextLine stringByReplacingOccurrencesOfString:@"\t" withString:@""];
     if ( [nextLine containsString:@"]"] && [nextLine containsString:@"["] ) {
         NSArray *nextLineList =  [nextLine componentsSeparatedByString:@"]"];
-        NSTimeInterval endTime = [self timeIntervalForTimeText:nextLineList.firstObject];
+        CGFloat endTime = [self timeIntervalForTimeText:nextLineList.firstObject];
         
         duration = endTime - beginTime;
     }
@@ -95,12 +95,12 @@
 }
 
 //[00:50.37]
-- (NSTimeInterval)timeIntervalForTimeText:(NSString*)timeText{
+- (CGFloat)timeIntervalForTimeText:(NSString*)timeText{
     
     timeText = [timeText stringByReplacingOccurrencesOfString:@"[" withString:@""];
     timeText = [timeText stringByReplacingOccurrencesOfString:@"]" withString:@""];
     
-    NSTimeInterval segementInterval;
+    CGFloat segementInterval;
     if ([timeText containsString:@"."]) {
         NSString *minString = [timeText substringWithRange:NSMakeRange(0, 2)];
         NSString *secString = [timeText substringWithRange:NSMakeRange(3, 2)];
