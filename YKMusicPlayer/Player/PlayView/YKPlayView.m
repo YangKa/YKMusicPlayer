@@ -40,7 +40,7 @@ static NSString *RotationAnimationKey = @"rotation";
     UILabel *singerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 00, self.yk_width, 30)];
     singerLabel.textColor = [UIColor whiteColor];
     singerLabel.textAlignment = NSTextAlignmentCenter;
-    singerLabel.font = [UIFont boldSystemFontOfSize:18];
+    singerLabel.font = [UIFont boldSystemFontOfSize:17];
     [self addSubview:singerLabel];
     self.singerLabel = singerLabel;
     
@@ -94,7 +94,7 @@ static NSString *RotationAnimationKey = @"rotation";
 #pragma mark refresh UI and show LRC progress
 - (void)reloadUIWithIconImage:(UIImage*)image singer:(NSString*)singer{
     self.roundPanel.image = image;
-    self.singerLabel.text = [NSString stringWithFormat:@"- %@ -", singer];
+    self.singerLabel.text = [NSString stringWithFormat:@"—— %@ ——", singer];
 }
 
 - (void)showLRCText:(NSString*)LRCText progress:(CGFloat)progres{

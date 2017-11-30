@@ -12,6 +12,6 @@
 
 @property (nonatomic, assign) CGFloat progress;
 
-- (void)setDuration:(NSTimeInterval)duration progress:(NSTimeInterval)progress;
+- (void)setDuration:(CGFloat)duration progress:(NSTimeInterval)progress;
 
 @end

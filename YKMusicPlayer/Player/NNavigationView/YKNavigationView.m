@@ -26,14 +26,14 @@
         _dimissBlock = [dimissBlock copy];
         
         UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 50, 40)];
-        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
+        backButton.contentEdgeInsets = UIEdgeInsetsMake(2, 8, 2, 8);
         [backButton setBackgroundImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateNormal];
         [backButton addTarget:self action:@selector(dimissPage) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backButton];
         
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        titleLabel.font = [UIFont boldSystemFontOfSize:20];
         [self addSubview:titleLabel];
         self.titleLabel = titleLabel;
     }

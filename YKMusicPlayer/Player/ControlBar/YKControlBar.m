@@ -9,6 +9,7 @@
 #import "YKControlBar.h"
 #import "YKProgressView.h"
 #import "YKMusicModel.h"
+#import "YKMusicPlayeMananger.h"
 
 @interface YKControlBar (){
     BOOL _previewDelegate;
@@ -47,11 +48,6 @@
         
         //layout UI
         [self layoutUI];
-        
-        _playBtn.enabled = NO;
-        _playBtn.selected = NO;
-        _previewBtn.enabled = NO;
-        _nextBtn.enabled = NO;
     }
     return self;
 }
@@ -73,7 +69,7 @@
     UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"playNext_green"] forState:UIControlStateNormal];
     [nextBtn setBackgroundImage:[UIImage imageNamed:@"playNext_gray"] forState:UIControlStateDisabled];
-    nextBtn.center = CGPointMake(self.yk_width - 74, 65);
+    nextBtn.center = CGPointMake(self.yk_width - 50, 65);
     [nextBtn addTarget:self action:@selector(exchangeToNextMusic:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:nextBtn];
     self.nextBtn = nextBtn;
@@ -94,12 +90,10 @@
        //  NSLog(@"--------%@ %f", [NSDate date], time);
         dispatch_async(dispatch_get_main_queue(), ^{
             //enable control bar
-            if (!_playBtn.isEnabled) {
+            if (!_playBtn.isSelected) {
                 _playBtn.selected = YES;
-                _playBtn.enabled = YES;
-                _previewBtn.enabled = YES;
-                _nextBtn.enabled = YES;
             }
+            
             //show play progress
             self.progressView.progress = time;
         });
@@ -140,12 +134,9 @@
     self.music = music;
     
     //disable control bar
-    _playBtn.enabled = NO;
-    _playBtn.selected = NO;
-    _previewBtn.enabled = NO;
-    _nextBtn.enabled = NO;
+    _playBtn.selected = [YKMusicPlayeMananger manager].playing;
     
     //init progress
-    [self.progressView setDuration:self.music.totalDuration progress:0];
+    [self.progressView setDuration:self.music.totalDuration progress:[YKMusicPlayeMananger manager].currentPlayTime];
 }
 @end

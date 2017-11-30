@@ -38,7 +38,7 @@ static CGFloat ControlOregionWidth = 150;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor lightGrayColor];
+        self.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
         _touchBlock = [touchBlock copy];
         [self layoutUI];
 
@@ -48,19 +48,23 @@ static CGFloat ControlOregionWidth = 150;
 
 - (void)layoutUI{
     
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.yk_width, 1)];
+    line.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    [self addSubview:line];
+    
     UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
     [self addSubview:iconImageView];
     self.iconImageView = iconImageView;
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, self.yk_width - 20 - ControlOregionWidth, 20)];
-    nameLabel.textColor = [UIColor whiteColor];
+    nameLabel.textColor = [UIColor lightGrayColor];
     nameLabel.font = [UIFont boldSystemFontOfSize:14];
     nameLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:nameLabel];
     self.nameLabel = nameLabel;
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, self.yk_width - 60 - ControlOregionWidth, 30)];
-    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textColor = [UIColor grayColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:18];
     titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:titleLabel];
@@ -105,11 +109,9 @@ static CGFloat ControlOregionWidth = 150;
     circleProgressLayer.lineWidth = 3;
     [circleProgressLayer setFillColor:[UIColor clearColor].CGColor];
     [circleProgressLayer setStrokeColor:CustomColor_1.CGColor];
-    
     UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:circleProgressLayer.bounds];
     path.lineCapStyle = kCGLineCapRound;
     circleProgressLayer.path = path.CGPath;
-    
     circleProgressLayer.strokeStart = 0;
     circleProgressLayer.strokeEnd = 0;
     [self.playBtn.layer addSublayer:circleProgressLayer];
@@ -124,6 +126,7 @@ static CGFloat ControlOregionWidth = 150;
     self.nameLabel.text = music.singerName;
     self.titleLabel.text = music.title;
     
+    self.circleProgressLayer.strokeEnd = [YKMusicPlayeMananger manager].playProgress;
     self.playBtn.selected = [YKMusicPlayeMananger manager].isPlaying;
 }
 
@@ -166,6 +169,8 @@ static CGFloat ControlOregionWidth = 150;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             //show play progress
+            
+            if (!self.playBtn.isSelected) self.playBtn.selected = YES;
             self.circleProgressLayer.strokeEnd = playProgress;
         });
     }

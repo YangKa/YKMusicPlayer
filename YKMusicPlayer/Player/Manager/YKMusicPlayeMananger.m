@@ -88,14 +88,17 @@
     //progress monitor
     self.currentPlayTime = 0;
     self.playProgress = 0.0;
+    
     __weak typeof(self) weakSelf = self;
     
     dispatch_queue_t queue = dispatch_queue_create("com.serial.timeObserver", DISPATCH_QUEUE_SERIAL);
     self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(30, 1000) queue:queue usingBlock:^(CMTime time) {
         
-        if (CMTimeCompare(time, kCMTimeZero) == 0) {
-            NSLog(@"CMTimeCompare zero");
+        if (weakSelf.pause){
+            return;
         }
+        
+        weakSelf.playing = YES;
         
         //当前播放的时间
         float current = CMTimeGetSeconds(time);

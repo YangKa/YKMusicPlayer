@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) YKMusicModel *music;
 
+@property (nonatomic, strong) UIImageView *bgImageView;
+
 @property (nonatomic, strong) YKNavigationView *navView;
 
 @property (nonatomic, strong) YKControlBar *controlBar;
@@ -59,8 +61,8 @@
     
     //背景海报
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    imageView.image = [UIImage imageNamed:self.music.bigIconName];
     [self.view addSubview:imageView];
+    self.bgImageView = imageView;
     
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
@@ -115,6 +117,8 @@
 #pragma mark reload data
 - (void)reloadUIData{
     YKMusicModel *music = [YKMusicPlayeMananger manager].music;
+    
+    self.bgImageView.image = [UIImage imageNamed:self.music.bigIconName];
     
     //navigation
     [self.navView reloadUIWithTitle:music.title];
