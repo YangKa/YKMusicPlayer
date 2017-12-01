@@ -2,7 +2,7 @@
 
 ###样图
 
-![样图](https://github.com/YangKa/YKMusicPlayer/blob/master/image/image_01.png)
+![样图](https://github.com/YangKa/YKMusicPlayer/blob/master/image/image_01.jpg)
 
 ### 功能：
 
