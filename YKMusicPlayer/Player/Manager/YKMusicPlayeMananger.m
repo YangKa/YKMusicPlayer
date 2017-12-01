@@ -92,8 +92,8 @@
     __weak typeof(self) weakSelf = self;
     
     dispatch_queue_t queue = dispatch_queue_create("com.serial.timeObserver", DISPATCH_QUEUE_SERIAL);
-    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(30, 1000) queue:queue usingBlock:^(CMTime time) {
-        
+    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(200, 1000) queue:queue usingBlock:^(CMTime time) {
+        NSLog(@"%@", [NSDate date]);
         if (weakSelf.pause){
             return;
         }
