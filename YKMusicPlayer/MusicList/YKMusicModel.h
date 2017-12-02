@@ -22,7 +22,7 @@
 
 @property (nonatomic, readonly, copy) NSString *bigIconName;
 
-@property (nonatomic, readonly, assign) NSTimeInterval totalDuration;
+@property (nonatomic, readonly, assign) CGFloat totalDuration;
 
 + (instancetype)musicModelWithInfo:(NSDictionary*)info;
 

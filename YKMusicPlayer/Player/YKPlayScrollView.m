@@ -21,8 +21,6 @@
 
 @property (nonatomic, strong) YKLRCDisplayView *LRCView;
 
-@property (nonatomic, strong) CADisplayLink *dispalyLink;
-
 @end
 
 @implementation YKPlayScrollView
@@ -31,18 +29,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.dispalyLink = [CADisplayLink displayLinkWithTarget:self  selector:@selector(refreshUI)];
-//        self.dispalyLink.paused = YES;
-//        [self.dispalyLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        
         [self layoutUI];
     }
     return self;
-}
-
-- (void)dealloc{
-//    [self.dispalyLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-//    self.dispalyLink = nil;
 }
 
 - (void)layoutUI{
@@ -128,14 +117,8 @@
 #pragma mark
 #pragma mark getter or setter
 - (void)setPlaying:(BOOL)playing{
-    
+    _playing = playing;
     self.playView.playing = playing;
-    
-//    if (playing) {
-//        self.dispalyLink.paused = NO;
-//    }else{
-//        self.dispalyLink.paused = YES;
-//    }
 }
 
 @end

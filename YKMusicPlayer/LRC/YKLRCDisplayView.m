@@ -162,6 +162,7 @@ static CGFloat CellHeight = 50;
     _lrclist = [list copy];
     [tableView reloadData];
     [tableView scrollsToTop];
+    
 }
 
 #pragma mark

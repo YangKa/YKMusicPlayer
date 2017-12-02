@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		70C49CFA1FCEBBEE00B6B713 /* YKPlayControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */; };
+		70C49D091FD2788300B6B713 /* YKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C49D081FD2788300B6B713 /* YKProgressView.m */; };
 		70DB6ADD1FC7F6B400DC42CF /* UIView+yk_Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6ADC1FC7F6B400DC42CF /* UIView+yk_Frame.m */; };
 		70DB6AE01FC81A6000DC42CF /* YKNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6ADF1FC81A6000DC42CF /* YKNavigationView.m */; };
 		70DB6AE31FC81DD200DC42CF /* YKMusicPlayeMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6AE21FC81DD200DC42CF /* YKMusicPlayeMananger.m */; };
-		8F1CB5861FC90DE2004C4E00 /* YKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1CB5851FC90DE2004C4E00 /* YKProgressView.m */; };
 		8F6F07931FC6A46F00A331F8 /* YKMusicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6F07921FC6A46E00A331F8 /* YKMusicModel.m */; };
 		8F8F70A11FC3E94000788266 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F70A01FC3E94000788266 /* AppDelegate.m */; };
 		8F8F70A71FC3E94000788266 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F8F70A51FC3E94000788266 /* Main.storyboard */; };
@@ -71,6 +71,8 @@
 /* Begin PBXFileReference section */
 		70C49CF81FCEBBEE00B6B713 /* YKPlayControlBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKPlayControlBar.h; sourceTree = "<group>"; };
 		70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKPlayControlBar.m; sourceTree = "<group>"; };
+		70C49D071FD2788200B6B713 /* YKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YKProgressView.h; sourceTree = "<group>"; };
+		70C49D081FD2788300B6B713 /* YKProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YKProgressView.m; sourceTree = "<group>"; };
 		70DB6AD51FC7F07600DC42CF /* YKMusicPlayer_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicPlayer_Header.h; sourceTree = "<group>"; };
 		70DB6ADB1FC7F6B400DC42CF /* UIView+yk_Frame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+yk_Frame.h"; sourceTree = "<group>"; };
 		70DB6ADC1FC7F6B400DC42CF /* UIView+yk_Frame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+yk_Frame.m"; sourceTree = "<group>"; };
@@ -78,8 +80,6 @@
 		70DB6ADF1FC81A6000DC42CF /* YKNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKNavigationView.m; sourceTree = "<group>"; };
 		70DB6AE11FC81DD200DC42CF /* YKMusicPlayeMananger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicPlayeMananger.h; sourceTree = "<group>"; };
 		70DB6AE21FC81DD200DC42CF /* YKMusicPlayeMananger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKMusicPlayeMananger.m; sourceTree = "<group>"; };
-		8F1CB5841FC90DE2004C4E00 /* YKProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKProgressView.h; sourceTree = "<group>"; };
-		8F1CB5851FC90DE2004C4E00 /* YKProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKProgressView.m; sourceTree = "<group>"; };
 		8F6F07911FC6A46E00A331F8 /* YKMusicModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKMusicModel.h; sourceTree = "<group>"; };
 		8F6F07921FC6A46E00A331F8 /* YKMusicModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKMusicModel.m; sourceTree = "<group>"; };
 		8F8F709C1FC3E94000788266 /* YKMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YKMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,10 +200,10 @@
 		8F1CB5871FC91F5C004C4E00 /* ControlBar */ = {
 			isa = PBXGroup;
 			children = (
+				70C49D071FD2788200B6B713 /* YKProgressView.h */,
+				70C49D081FD2788300B6B713 /* YKProgressView.m */,
 				8F8F71AB1FC3EA3700788266 /* YKControlBar.h */,
 				8F8F71AC1FC3EA3700788266 /* YKControlBar.m */,
-				8F1CB5841FC90DE2004C4E00 /* YKProgressView.h */,
-				8F1CB5851FC90DE2004C4E00 /* YKProgressView.m */,
 			);
 			path = ControlBar;
 			sourceTree = "<group>";
@@ -489,9 +489,9 @@
 				8F8F71A41FC3EA0A00788266 /* YKLRCParser.m in Sources */,
 				8F8F71B91FC3EAAE00788266 /* YKMusicListViewController.m in Sources */,
 				70DB6AE01FC81A6000DC42CF /* YKNavigationView.m in Sources */,
+				70C49D091FD2788300B6B713 /* YKProgressView.m in Sources */,
 				8F8F70A11FC3E94000788266 /* AppDelegate.m in Sources */,
 				8F8F71AD1FC3EA3700788266 /* YKControlBar.m in Sources */,
-				8F1CB5861FC90DE2004C4E00 /* YKProgressView.m in Sources */,
 				8F6F07931FC6A46F00A331F8 /* YKMusicModel.m in Sources */,
 				70C49CFA1FCEBBEE00B6B713 /* YKPlayControlBar.m in Sources */,
 				70DB6AE31FC81DD200DC42CF /* YKMusicPlayeMananger.m in Sources */,

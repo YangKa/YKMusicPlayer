@@ -9,21 +9,26 @@
 #import "YKMusicPlayeMananger.h"
 #import "YKMusicParser.h"
 
-@interface YKMusicPlayeMananger ()
+@interface YKMusicPlayeMananger (){
+    id _timeObserver;
+    AVPlayer *_player;
+}
 
 @property (nonatomic,  strong) YKMusicModel *music;
+
+@property (nonatomic, strong) NSArray *musicList;
+
 
 @property (nonatomic,  assign) float currentPlayTime;
 
 @property (nonatomic,  assign) float playProgress;
 
+@property (nonatomic,  assign) float cacheProgress;
+
+
 @property (nonatomic,  assign) BOOL playing;
 
 @property (nonatomic,  assign) BOOL pause;
-
-@property (nonatomic, strong) AVPlayer *player;
-
-@property (nonatomic, strong) id timeObserver;
 
 @end
 
@@ -38,33 +43,73 @@
     return instace;
 }
 
-//初始化重置
+#pragma mark
+#pragma mark public method
+- (NSArray*)currentMusicList{
+    return [self.musicList copy];
+}
+
+#pragma mark
+#pragma mark privat method
 - (void)resetPlayManager{
     
-    if (self.player) {
-        [self.player pause];
-        self.player = nil;
-    }
     self.playing = NO;
     self.pause = NO;
     
-    //remove KVO
-    [self.player.currentItem removeObserver:self forKeyPath:@"status"];
-    [self.player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    
-    if (self.timeObserver) {
-        [self.player removeTimeObserver:self.timeObserver];
-        self.timeObserver = nil;
+    if (_player) {
+        [_player pause];
+        
+        [self removeObserver];
+        
+        _player = nil;
     }
+    
     self.currentPlayTime = 0;
     self.playProgress = 0.0;
+    self.cacheProgress = 0.0;
+}
+
+- (void)addObserver{
+    //KVO
+    //加载文件
+    [_player.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+    //缓存状态
+    [_player.currentItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+    
+    //Notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playFinished) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_queue_t queue = dispatch_queue_create("com.serial.timeObserver", DISPATCH_QUEUE_SERIAL);
+    _timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(200, 1000) queue:queue usingBlock:^(CMTime time) {
+        
+        if (weakSelf.pause){
+            return;
+        }
+        
+        //播放状态
+        weakSelf.playing = YES;
+        
+        //当前播放的时间r
+        weakSelf.currentPlayTime = CMTimeGetSeconds(time);
+        weakSelf.playProgress = weakSelf.currentPlayTime / weakSelf.music.totalDuration;
+    }];
+}
+
+- (void)removeObserver{
+    //remove KVO
+    [_player removeTimeObserver:_timeObserver];
+    _timeObserver = nil;
+    
+    [_player.currentItem removeObserver:self forKeyPath:@"status"];
+    [_player.currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
     
     //remove notification
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark
-#pragma mark play single music
+#pragma mark play status control
 - (void)startPlayWithMusic:(YKMusicModel*)music{
     
     //初始化重置
@@ -75,59 +120,40 @@
     NSURL *url = [NSURL fileURLWithPath:self.music.filePath];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
     
-    self.player = [AVPlayer playerWithPlayerItem:item];
-    self.player.volume = 1.0;
+    if (_player) {
+        [_player replaceCurrentItemWithPlayerItem:item];
+    }else{
+        _player = [AVPlayer playerWithPlayerItem:item];
+        _player.volume = 1.0;
+    }
     
-    //KVO
-    [self.player.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-    [self.player.currentItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-    
-    //Notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playFinished) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
-    
+    //add KVO and Notification
+    [self addObserver];
+
     //progress monitor
     self.currentPlayTime = 0;
     self.playProgress = 0.0;
+    self.cacheProgress = 0.0;
     
-    __weak typeof(self) weakSelf = self;
-    
-    dispatch_queue_t queue = dispatch_queue_create("com.serial.timeObserver", DISPATCH_QUEUE_SERIAL);
-    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(200, 1000) queue:queue usingBlock:^(CMTime time) {
-        NSLog(@"%@", [NSDate date]);
-        if (weakSelf.pause){
-            return;
-        }
-        
-        weakSelf.playing = YES;
-        
-        //当前播放的时间
-        float current = CMTimeGetSeconds(time);
-         //NSLog(@"当前播放的时间 %f", current);
-        if (current >= weakSelf.currentPlayTime) {
-            weakSelf.currentPlayTime = current;
-            weakSelf.playProgress = current / weakSelf.music.totalDuration;
-        }
-    }];
-
-    [self.player play];
+    [_player play];
 }
 
 - (void)pausePlay{
     self.playing = NO;
     self.pause = YES;
-    [self.player pause];
+    [_player pause];
 }
 
 - (void)resumePlay{
     self.playing = YES;
     self.pause = NO;
-    [self.player play];
+    [_player play];
 }
 
 - (void)cancelPlay{
     self.playing = NO;
     self.pause = NO;
-    [self.player pause];
+    [_player pause];
     
     [self resetPlayManager];
 }
@@ -147,10 +173,10 @@
 - (void)seekToTime:(CMTime)time{
     if (self.playing) {
         self.pause = YES;
-        [self.player pause];
+        [_player pause];
     }
     
-    [self.player seekToTime:time];
+    [_player seekToTime:time];
     
     //进度修改
     CGFloat second = CMTimeGetSeconds(time);
@@ -159,13 +185,16 @@
     
     if (self.playing) {
          self.pause = NO;
-        [self.player play];
+        [_player play];
     }
 }
 
 #pragma mark
-#pragma mark control
+#pragma mark play  control
 - (void)playNextMusic{
+    
+    [self pausePlay];
+    
     NSUInteger index = 0;
     if ([self.musicList containsObject:self.music]) {
         index = [self.musicList indexOfObject:self.music];
@@ -178,6 +207,9 @@
 }
 
 - (void)playPreviewMusic{
+    
+    [self pausePlay];
+    
     NSUInteger index = 0;
     if ([self.musicList containsObject:self.music]) {
         index = [self.musicList indexOfObject:self.music];
@@ -192,19 +224,30 @@
 #pragma mark
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
     if ([keyPath isEqualToString:@"status"]) {
         AVPlayerStatus status = (AVPlayerStatus)change[NSKeyValueChangeNewKey];
         switch (status) {
             case AVPlayerStatusFailed:
-                
+                NSLog(@"文件初始化失败");
                 break;
             case AVPlayerStatusReadyToPlay:
-                
+                NSLog(@"文件初始化完成，准备播放");
                 break;
             case AVPlayerStatusUnknown:
-                
+                NSLog(@"未知状态，不能播放");
                 break;
         }
+    }
+    
+    if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+        
+        AVPlayerItem *item = (AVPlayerItem*)object;
+        NSValue *value = [item.loadedTimeRanges firstObject];
+        CMTimeRange timeRange = [value CMTimeRangeValue];
+        self.cacheProgress = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
+        
+        NSLog(@"%f  %f cacheProgress=%f", self.cacheProgress, CMTimeGetSeconds(timeRange.start), CMTimeGetSeconds(timeRange.duration));
     }
 }
 
@@ -216,6 +259,5 @@
     }
     return _musicList;
 }
-
 
 @end

@@ -42,7 +42,7 @@
     
     //duration
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:model.filePath] options:nil];
-    NSTimeInterval duratuin = CMTimeGetSeconds(asset.duration);
+    CGFloat duratuin = CMTimeGetSeconds(asset.duration);
     model.totalDuration = duratuin;
     
     return model;

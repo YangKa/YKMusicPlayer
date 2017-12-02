@@ -54,7 +54,7 @@
 
 - (void)layoutUI{
     
-    YKProgressView *progressView = [[YKProgressView alloc] initWithFrame:CGRectMake(0, 0, self.yk_width, 40)];
+    YKProgressView *progressView = [[YKProgressView alloc] initWithFrame:CGRectMake(0, 0, self.yk_width, 40) textColor:[UIColor whiteColor] fontSize:10];
     [self addSubview:progressView];
     self.progressView = progressView;
     
@@ -92,7 +92,7 @@
         _playBtn.selected = [YKMusicPlayeMananger manager].isPlaying;
         
         //show play progress
-        self.progressView.progress = [YKMusicPlayeMananger manager].currentPlayTime;
+        self.progressView.playProgress = [YKMusicPlayeMananger manager].playProgress;
     });
 }
 
@@ -133,6 +133,7 @@
     _playBtn.selected = [YKMusicPlayeMananger manager].playing;
     
     //init progress
-    [self.progressView setDuration:self.music.totalDuration progress:[YKMusicPlayeMananger manager].currentPlayTime];
+    self.progressView.totalTime = music.totalDuration;
+    self.progressView.playProgress = [YKMusicPlayeMananger manager].playProgress;
 }
 @end

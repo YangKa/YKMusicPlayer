@@ -14,15 +14,21 @@
 
 @property (nonatomic, readonly, strong) YKMusicModel *music;
 
+//zero to 1, current play progress
 @property (nonatomic, readonly, assign) float playProgress;
 
+//current play time (second)
 @property (nonatomic, readonly, assign) float currentPlayTime;
 
+//file buffer cache progress (second)
+@property (nonatomic, readonly, assign) float cacheProgress;
+
+//playing status
 @property (nonatomic, readonly, assign, getter=isPlaying) BOOL playing;
 
+//pause status
 @property (nonatomic, readonly, assign, getter=isPause) BOOL pause;
 
-@property (nonatomic, strong) NSArray *musicList;
 
 + (instancetype)manager;
 
@@ -42,5 +48,7 @@
 - (void)playNextMusic;
 
 - (void)playPreviewMusic;
+
+- (NSArray*)currentMusicList;
 
 @end

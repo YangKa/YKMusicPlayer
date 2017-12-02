@@ -30,7 +30,7 @@ static CGFloat PlayControlBarHeight = 70;
     [super viewDidLoad];
     self.title = @"列表";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.musicList = [YKMusicPlayeMananger manager].musicList;
+    self.musicList = [[YKMusicPlayeMananger manager] currentMusicList];
     [self layoutUI];
 }
 

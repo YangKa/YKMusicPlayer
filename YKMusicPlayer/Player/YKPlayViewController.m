@@ -47,14 +47,22 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUIData) name:PlayNextMusicNotificationKey object:nil];
+    [self addObserver];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+    [self removeObserver];
+}
+
+- (void)addObserver{
+    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUIData) name:PlayNextMusicNotificationKey object:nil];
+}
+
+- (void)removeObserver{
     [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"currentPlayTime"];
-     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)layoutUI{
@@ -97,7 +105,8 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentPlayTime"]) {
-        CGFloat progress = [[change valueForKey:NSKeyValueChangeNewKey] floatValue];
+        
+        //CGFloat progress = [[change valueForKey:NSKeyValueChangeNewKey] floatValue];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.playScrollView refreshUI];
@@ -112,7 +121,6 @@
     NSUInteger pageIndex = (scrollView.contentOffset.x + scrollView.yk_width/2) / scrollView.yk_width;
     self.pageControl.currentPage = pageIndex;
 }
-
 
 #pragma mark
 #pragma mark YKControlBarDelegate
