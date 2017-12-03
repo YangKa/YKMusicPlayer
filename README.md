@@ -18,6 +18,15 @@
  - 通过 `-addPeriodicTimeObserverForInterval: queue: usingBlock:`监听播放器进度
  - 通过KVO监听播放时间和进度，同步更新当前所有展示界面
  
+ ### 注意点
+ 
+ 不管是本地文件还是网络流，都有数据加载的缓存过程，需要监听AVPlayerItem的loadedTimeRanges属性。同时合理控制cacheProgress和playProgress的关系。
+ 
+ AVPlayer提供了AVPlayerTimeControlStatus类型的属性timeControlStatus，表示缓存和播放直接的状态。
+ 
+ 因此，播放进度条需要底色、缓存进度、播放进度。为了加快绘制，采用了CALayer自定义进度条，如下：
+ 
+ ![样图](https://github.com/YangKa/YKMusicPlayer/blob/master/image/image_02.jpg)
  
 ### 计划
 
