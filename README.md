@@ -26,7 +26,7 @@
  
  因此，播放进度条需要底色、缓存进度、播放进度。为了加快绘制，采用了CALayer自定义进度条，如下：
  
- ![样图](https://github.com/YangKa/YKMusicPlayer/blob/master/image/image_02.jpg)
+ ![样图](https://github.com/YangKa/YKMusicPlayer/blob/master/image/image_02.png)
  
 ### 计划
 
