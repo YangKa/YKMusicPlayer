@@ -52,7 +52,7 @@
 
 static CGFloat TimeWidth  = 45.0f;
 static CGFloat IntervalMargin = 10.0f;
-static CGFloat LineHeight = 2;
+static CGFloat LineHeight = 4;
 #define ProgressWidth   (self.frame.size.width - 2*TimeWidth - 2*IntervalMargin)
 
 #define Color1  [UIColor colorWithWhite:1 alpha:1.0]
@@ -168,6 +168,7 @@ static CGFloat LineHeight = 2;
 - (void)setCacheProgress:(CGFloat)cacheProgress{
     _cacheProgress = cacheProgress > self.playProgress ? cacheProgress:self.playProgress;
     CGFloat width = _cacheProgress*ProgressWidth;
+
     [self.cacheProgressLayer setWidth:width];
 }
 
@@ -207,7 +208,7 @@ static CGFloat LineHeight = 2;
     
     CGPoint point = [[touches anyObject] locationInView:self];
     
-    self.dragging = [self.thumbImage hitTest:point];
+    self.dragging = [self.thumbImage containsPoint:point];
     if (self.isDragging) {
         _lastPoint = point;
         self.thumbImage.backgroundColor = [UIColor greenColor].CGColor;

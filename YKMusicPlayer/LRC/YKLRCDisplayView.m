@@ -160,15 +160,14 @@ static CGFloat CellHeight = 50;
     _lastProcessLine = 0;
     
     _lrclist = [list copy];
-    [tableView reloadData];
     [tableView scrollsToTop];
-    
+    [tableView reloadData];
 }
 
 #pragma mark
 #pragma mark setter
 - (BOOL)isScrolling{
- 
+    
     return tableView.isDragging || tableView.tracking;
 }
 @end

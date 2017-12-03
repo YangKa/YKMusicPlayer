@@ -48,7 +48,7 @@ static CGFloat PlayControlBarHeight = 70;
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     if (self.playControlBar){
-        [[YKMusicPlayeMananger manager] removeObserver:self.playControlBar forKeyPath:@"playProgress"];
+        [[YKMusicPlayeMananger manager] removeObserver:self.playControlBar forKeyPath:@"currentPlayTime"];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
@@ -129,13 +129,13 @@ static CGFloat PlayControlBarHeight = 70;
     }
     
     [self.playControlBar reloadUI];
-    [[YKMusicPlayeMananger manager] addObserver:self.playControlBar forKeyPath:@"playProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self.playControlBar forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)removePlayControlBar{
     if (self.playControlBar) {
         
-        [[YKMusicPlayeMananger manager] removeObserver:self.playControlBar forKeyPath:@"playProgress"];
+        [[YKMusicPlayeMananger manager] removeObserver:self.playControlBar forKeyPath:@"currentPlayTime"];
         
         [self.playControlBar removeFromSuperview];
         self.playControlBar = nil;

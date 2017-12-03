@@ -17,11 +17,15 @@
 //zero to 1, current play progress
 @property (nonatomic, readonly, assign) float playProgress;
 
+//file buffer cache progress (second)
+@property (nonatomic, readonly, assign) float cacheProgress;
+
+
 //current play time (second)
 @property (nonatomic, readonly, assign) float currentPlayTime;
 
-//file buffer cache progress (second)
-@property (nonatomic, readonly, assign) float cacheProgress;
+//current play time (second)
+@property (nonatomic, readonly, assign) float currentCacheTime;
 
 //playing status
 @property (nonatomic, readonly, assign, getter=isPlaying) BOOL playing;

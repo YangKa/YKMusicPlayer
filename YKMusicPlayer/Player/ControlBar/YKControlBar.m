@@ -86,15 +86,24 @@
 
 #pragma mark
 #pragma mark refesh
-- (void)refreshUI{
+- (void)setPlayProgress:(CGFloat)progress{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _playBtn.selected = [YKMusicPlayeMananger manager].isPlaying;
+        //show play progress
+        self.progressView.playProgress = progress;
+    });
     
+}
+
+- (void)setCacheProgress:(CGFloat)progress{
     dispatch_async(dispatch_get_main_queue(), ^{
         _playBtn.selected = [YKMusicPlayeMananger manager].isPlaying;
         
         //show play progress
-        self.progressView.playProgress = [YKMusicPlayeMananger manager].playProgress;
+        self.progressView.cacheProgress = progress;
     });
 }
+
 
 #pragma mark
 #pragma mark event method

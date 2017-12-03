@@ -29,6 +29,10 @@
 
 - (void)reloadUIWithMusic:(YKMusicModel*)music;
 
-- (void)refreshUI;
+- (void)setPlayProgress:(CGFloat)progress;
+
+- (void)setCacheProgress:(CGFloat)progress;
+
+
 
 @end

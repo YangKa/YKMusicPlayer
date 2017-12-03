@@ -18,13 +18,9 @@
 
 @property (nonatomic, strong) NSArray *musicList;
 
-
 @property (nonatomic,  assign) float currentPlayTime;
 
-@property (nonatomic,  assign) float playProgress;
-
-@property (nonatomic,  assign) float cacheProgress;
-
+@property (nonatomic,  assign) float currentCacheTime;
 
 @property (nonatomic,  assign) BOOL playing;
 
@@ -65,8 +61,7 @@
     }
     
     self.currentPlayTime = 0;
-    self.playProgress = 0.0;
-    self.cacheProgress = 0.0;
+    self.currentCacheTime = 0.0;
 }
 
 - (void)addObserver{
@@ -92,7 +87,6 @@
         
         //当前播放的时间r
         weakSelf.currentPlayTime = CMTimeGetSeconds(time);
-        weakSelf.playProgress = weakSelf.currentPlayTime / weakSelf.music.totalDuration;
     }];
 }
 
@@ -132,8 +126,7 @@
 
     //progress monitor
     self.currentPlayTime = 0;
-    self.playProgress = 0.0;
-    self.cacheProgress = 0.0;
+    self.currentCacheTime = 0.0;
     
     [_player play];
 }
@@ -181,7 +174,6 @@
     //进度修改
     CGFloat second = CMTimeGetSeconds(time);
     self.currentPlayTime = second;
-    self.playProgress = second / self.music.totalDuration;
     
     if (self.playing) {
          self.pause = NO;
@@ -245,9 +237,7 @@
         AVPlayerItem *item = (AVPlayerItem*)object;
         NSValue *value = [item.loadedTimeRanges firstObject];
         CMTimeRange timeRange = [value CMTimeRangeValue];
-        self.cacheProgress = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
-        
-        NSLog(@"%f  %f cacheProgress=%f", self.cacheProgress, CMTimeGetSeconds(timeRange.start), CMTimeGetSeconds(timeRange.duration));
+        self.currentCacheTime = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
     }
 }
 
@@ -258,6 +248,14 @@
         _musicList = [YKMusicParser musicListWithFileName:@"Musics.plist"];
     }
     return _musicList;
+}
+
+- (float)playProgress{
+    return self.currentPlayTime / self.music.totalDuration;
+}
+
+- (float)cacheProgress{
+    return self.currentCacheTime / self.music.totalDuration;
 }
 
 @end

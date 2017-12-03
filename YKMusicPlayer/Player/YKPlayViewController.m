@@ -57,11 +57,15 @@
 
 - (void)addObserver{
     [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentCacheTime" options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"music" options:NSKeyValueObservingOptionNew context:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUIData) name:PlayNextMusicNotificationKey object:nil];
 }
 
 - (void)removeObserver{
     [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"currentPlayTime"];
+    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"currentCacheTime"];
+    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"music"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -104,14 +108,18 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
+    if ([keyPath isEqualToString:@"music"]) {
+        [self reloadUIData];
+    }
+    
     if ([keyPath isEqualToString:@"currentPlayTime"]) {
-        
-        //CGFloat progress = [[change valueForKey:NSKeyValueChangeNewKey] floatValue];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.playScrollView refreshUI];
-            [self.controlBar refreshUI];
-        });
+        [self.playScrollView refreshUI];
+        [self.controlBar setPlayProgress:[YKMusicPlayeMananger manager].playProgress];
+    }
+    
+    if ([keyPath isEqualToString:@"currentCacheTime"]) {
+        [self.controlBar setCacheProgress:[YKMusicPlayeMananger manager].cacheProgress];
     }
 }
 
@@ -126,12 +134,10 @@
 #pragma mark YKControlBarDelegate
 - (void)didNextMusicWithControlBar:(YKControlBar*)controlBar{
     [[YKMusicPlayeMananger manager] playNextMusic];
-    [self reloadUIData];
 }
 
 - (void)didPreviewMusicWithControlBar:(YKControlBar*)controlBar{
     [[YKMusicPlayeMananger manager] playPreviewMusic];
-    [self reloadUIData];
 }
 
 - (void)didPlayMusicWithControlBar:(YKControlBar*)controlBar{
