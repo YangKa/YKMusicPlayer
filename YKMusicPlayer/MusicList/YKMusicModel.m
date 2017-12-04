@@ -23,7 +23,7 @@
 
 @property (nonatomic,  copy) NSString *bigIconName;
 
-@property (nonatomic, assign) NSTimeInterval totalDuration;
+@property (nonatomic, assign) CGFloat totalDuration;
 
 @end
 
@@ -34,14 +34,20 @@
     YKMusicModel *model = [YKMusicModel new];
     
     model.title = info[@"name"];
-    model.filePath = [[NSBundle mainBundle] pathForResource:info[@"filename"] ofType:nil];
+    if ([info[@"filename"] containsString:@"http"]) {
+        model.filePath = info[@"filename"];
+    }else{
+        model.filePath = [[NSBundle mainBundle] pathForResource:info[@"filename"] ofType:nil];
+    }
     model.LRCFilePath = [[NSBundle mainBundle] pathForResource:info[@"lrcname"] ofType:nil];
     model.singerName = info[@"singer"];
     model.iconName = info[@"singerIcon"];
     model.bigIconName = info[@"icon"];
     
     //duration
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:model.filePath] options:nil];
+    NSURL *url = [NSURL fileURLWithPath:model.filePath];;
+    url = [NSURL fileURLWithPath:model.filePath];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
     CGFloat duratuin = CMTimeGetSeconds(asset.duration);
     model.totalDuration = duratuin;
     

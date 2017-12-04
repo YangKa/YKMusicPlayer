@@ -18,6 +18,10 @@
 }
 
 - (NSArray*)paserLRCForFilePath:(NSString*)filePath{
+    if (!filePath || filePath.length == 0) {
+        return @[];
+    }
+    
     NSArray *list = [self lrcStringListForFilePath:filePath];
     
     return [self paserLRCForFileContentList:list];

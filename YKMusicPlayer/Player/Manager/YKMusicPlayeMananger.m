@@ -237,6 +237,7 @@
         AVPlayerItem *item = (AVPlayerItem*)object;
         NSValue *value = [item.loadedTimeRanges firstObject];
         CMTimeRange timeRange = [value CMTimeRangeValue];
+        NSLog(@"start=%f   duration=%f", CMTimeGetSeconds(timeRange.start), CMTimeGetSeconds(timeRange.duration));
         self.currentCacheTime = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
     }
 }
@@ -256,6 +257,16 @@
 
 - (float)cacheProgress{
     return self.currentCacheTime / self.music.totalDuration;
+}
+
+#pragma mark
+#pragma mark
++ (NSSet*)keyPathsForValuesAffectingPlayProgress{
+    return [NSSet setWithObject:@"currentPlayTime"];
+}
+
++ (NSSet*)keyPathsForValuesAffectingCacheProgress{
+    return [NSSet setWithObject:@"currentCacheTime"];
 }
 
 @end

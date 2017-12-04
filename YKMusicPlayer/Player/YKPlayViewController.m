@@ -56,15 +56,15 @@
 }
 
 - (void)addObserver{
-    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentPlayTime" options:NSKeyValueObservingOptionNew context:nil];
-    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"currentCacheTime" options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"playProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"cacheProgress" options:NSKeyValueObservingOptionNew context:nil];
     [[YKMusicPlayeMananger manager] addObserver:self forKeyPath:@"music" options:NSKeyValueObservingOptionNew context:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadUIData) name:PlayNextMusicNotificationKey object:nil];
 }
 
 - (void)removeObserver{
-    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"currentPlayTime"];
-    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"currentCacheTime"];
+    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"playProgress"];
+    [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"cacheProgress"];
     [[YKMusicPlayeMananger manager] removeObserver:self forKeyPath:@"music"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -113,13 +113,15 @@
         [self reloadUIData];
     }
     
-    if ([keyPath isEqualToString:@"currentPlayTime"]) {
+    if ([keyPath isEqualToString:@"playProgress"]) {
         [self.playScrollView refreshUI];
-        [self.controlBar setPlayProgress:[YKMusicPlayeMananger manager].playProgress];
+        float playProgress = [change[NSKeyValueChangeNewKey] floatValue];
+        [self.controlBar setPlayProgress:playProgress];
     }
     
-    if ([keyPath isEqualToString:@"currentCacheTime"]) {
-        [self.controlBar setCacheProgress:[YKMusicPlayeMananger manager].cacheProgress];
+    if ([keyPath isEqualToString:@"cacheProgress"]) {
+        float cacheProgress = [change[NSKeyValueChangeNewKey] floatValue];
+        [self.controlBar setCacheProgress:cacheProgress];
     }
 }
 

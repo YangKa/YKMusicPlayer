@@ -208,7 +208,7 @@ static CGFloat LineHeight = 4;
     
     CGPoint point = [[touches anyObject] locationInView:self];
     
-    self.dragging = [self.thumbImage containsPoint:point];
+    self.dragging = (BOOL)[self.thumbImage hitTest:point];
     if (self.isDragging) {
         _lastPoint = point;
         self.thumbImage.backgroundColor = [UIColor greenColor].CGColor;
