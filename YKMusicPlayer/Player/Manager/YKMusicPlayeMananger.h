@@ -33,10 +33,9 @@
 //pause status
 @property (nonatomic, readonly, assign, getter=isPause) BOOL pause;
 
-
 + (instancetype)manager;
 
-//play message
+//play cotrol
 - (void)startPlayWithMusic:(YKMusicModel*)music;
 
 - (void)pausePlay;
@@ -45,14 +44,17 @@
 
 - (void)cancelPlay;
 
-
-//control message
+//control play
 - (void)seekToTime:(CMTime)time;
 
 - (void)playNextMusic;
 
 - (void)playPreviewMusic;
 
+//current muisic list
 - (NSArray*)currentMusicList;
+
+//refresh LRC text
+- (void)setCurrentLRCTIndex:(NSUInteger)index text:(NSString*)text;
 
 @end

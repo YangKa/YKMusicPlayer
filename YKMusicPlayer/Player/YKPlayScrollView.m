@@ -82,9 +82,10 @@
     
     YKLRCModel *model = self.LRCList[index];
     CGFloat progress = (time - model.beginTime)/model.duration;
-    
     [self.playView showLRCText:model.text progress:progress];
     [self.LRCView seekToLineIndex:index progress:progress];
+    
+    [[YKMusicPlayeMananger manager] setCurrentLRCTIndex:index text:model.text];
 }
 
 #pragma mark

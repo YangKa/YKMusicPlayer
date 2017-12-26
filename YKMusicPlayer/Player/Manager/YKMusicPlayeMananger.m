@@ -8,10 +8,13 @@
 
 #import "YKMusicPlayeMananger.h"
 #import "YKMusicParser.h"
+#import "YKScreenPlayMananger.h"
 
 @interface YKMusicPlayeMananger (){
     id _timeObserver;
     AVPlayer *_player;
+    
+    NSUInteger _lineIndex;
 }
 
 @property (nonatomic,  strong) YKMusicModel *music;
@@ -39,10 +42,41 @@
     return instace;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(interruptionHandle:) name:AVAudioSessionInterruptionNotification object:nil];
+    }
+    return self;
+}
+
 #pragma mark
 #pragma mark public method
 - (NSArray*)currentMusicList{
     return [self.musicList copy];
+}
+
+- (void)refreshScreenPlayingInfoWithText:(NSString*)text{
+   NSDictionary *info = @{@"title":self.music.title,
+                          @"artist":self.music.singerName,
+                          @"duration":[NSNumber numberWithFloat:self.music.totalDuration],
+                          @"playTime":[NSNumber numberWithFloat:CMTimeGetSeconds(_player.currentTime)],
+                          @"playRate":@1,
+                          @"artwork":[UIImage imageNamed:self.music.bigIconName],
+                          @"LRCText":text
+                          };
+    [[YKScreenPlayMananger manager] showPlayingInfoOnScreen:info];
+}
+
+- (void)setCurrentLRCTIndex:(NSUInteger)index text:(NSString*)text{
+    if (_lineIndex != index) {
+        _lineIndex = index;
+        [self refreshScreenPlayingInfoWithText:text];
+    }
 }
 
 #pragma mark
@@ -214,7 +248,29 @@
 }
 
 #pragma mark
+#pragma mark Notification
+- (void)interruptionHandle:(NSNotification*)notification{
+    AVAudioSessionInterruptionType type = (NSUInteger)notification.userInfo[AVAudioSessionInterruptionTypeKey];
+    switch (type) {
+        case AVAudioSessionInterruptionTypeBegan:{
+            
+        }break;
+        case AVAudioSessionInterruptionTypeEnded:{
+            
+        }break;
+    }
+}
+
+#pragma mark
 #pragma mark KVO
++ (NSSet*)keyPathsForValuesAffectingPlayProgress{
+    return [NSSet setWithObject:@"currentPlayTime"];
+}
+
++ (NSSet*)keyPathsForValuesAffectingCacheProgress{
+    return [NSSet setWithObject:@"currentCacheTime"];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     
     if ([keyPath isEqualToString:@"status"]) {
@@ -257,16 +313,6 @@
 
 - (float)cacheProgress{
     return self.currentCacheTime / self.music.totalDuration;
-}
-
-#pragma mark
-#pragma mark
-+ (NSSet*)keyPathsForValuesAffectingPlayProgress{
-    return [NSSet setWithObject:@"currentPlayTime"];
-}
-
-+ (NSSet*)keyPathsForValuesAffectingCacheProgress{
-    return [NSSet setWithObject:@"currentCacheTime"];
 }
 
 @end

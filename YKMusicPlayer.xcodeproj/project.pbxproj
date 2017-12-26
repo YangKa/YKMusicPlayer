@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		70B0B4681FD6454600FA7F09 /* YKScreenPlayMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B0B4671FD6454600FA7F09 /* YKScreenPlayMananger.m */; };
 		70C49CFA1FCEBBEE00B6B713 /* YKPlayControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */; };
 		70C49D091FD2788300B6B713 /* YKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C49D081FD2788300B6B713 /* YKProgressView.m */; };
 		70DB6ADD1FC7F6B400DC42CF /* UIView+yk_Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DB6ADC1FC7F6B400DC42CF /* UIView+yk_Frame.m */; };
@@ -69,6 +70,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		70B0B4661FD6454600FA7F09 /* YKScreenPlayMananger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKScreenPlayMananger.h; sourceTree = "<group>"; };
+		70B0B4671FD6454600FA7F09 /* YKScreenPlayMananger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKScreenPlayMananger.m; sourceTree = "<group>"; };
 		70C49CF81FCEBBEE00B6B713 /* YKPlayControlBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YKPlayControlBar.h; sourceTree = "<group>"; };
 		70C49CF91FCEBBEE00B6B713 /* YKPlayControlBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YKPlayControlBar.m; sourceTree = "<group>"; };
 		70C49D071FD2788200B6B713 /* YKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YKProgressView.h; sourceTree = "<group>"; };
@@ -213,6 +216,8 @@
 			children = (
 				70DB6AE11FC81DD200DC42CF /* YKMusicPlayeMananger.h */,
 				70DB6AE21FC81DD200DC42CF /* YKMusicPlayeMananger.m */,
+				70B0B4661FD6454600FA7F09 /* YKScreenPlayMananger.h */,
+				70B0B4671FD6454600FA7F09 /* YKScreenPlayMananger.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -400,6 +405,11 @@
 					8F8F709B1FC3E94000788266 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -488,6 +498,7 @@
 				8F8F71A71FC3EA1A00788266 /* YKLRCDisplayView.m in Sources */,
 				8F8F71A41FC3EA0A00788266 /* YKLRCParser.m in Sources */,
 				8F8F71B91FC3EAAE00788266 /* YKMusicListViewController.m in Sources */,
+				70B0B4681FD6454600FA7F09 /* YKScreenPlayMananger.m in Sources */,
 				70DB6AE01FC81A6000DC42CF /* YKNavigationView.m in Sources */,
 				70C49D091FD2788300B6B713 /* YKProgressView.m in Sources */,
 				8F8F70A11FC3E94000788266 /* AppDelegate.m in Sources */,

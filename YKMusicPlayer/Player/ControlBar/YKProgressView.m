@@ -56,7 +56,7 @@ static CGFloat LineHeight = 4;
 #define ProgressWidth   (self.frame.size.width - 2*TimeWidth - 2*IntervalMargin)
 
 #define Color1  [UIColor colorWithWhite:1 alpha:1.0]
-#define Color2  [UIColor colorWithWhite:0.7 alpha:1.0]
+#define Color2  [UIColor colorWithWhite:0.6 alpha:1.0]
 #define Color3  [UIColor greenColor]
 
 @implementation YKProgressView
