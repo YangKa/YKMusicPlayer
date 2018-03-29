@@ -1,6 +1,6 @@
 ## 本地音乐播放器
 
-###样图
+### 样图
 
 ![样图](https://github.com/YangKa/YKMusicPlayer/blob/master/image/image_01.jpg)
 
